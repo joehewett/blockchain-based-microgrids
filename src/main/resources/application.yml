@@ -1,0 +1,13 @@
+micronaut:
+  application:
+    name: agent
+
+blockchain:
+  network:
+    scheme: ${NET_SCHEME:http}
+    host: ${NET_HOST:localhost}
+    port: ${NET_PORT:8545}
+  wallet:
+    dir: ${WEB3J_WALLET_PATH:/Users/University/Desktop/Git/year3/private_bc/data_dir/TestChain/keystore/UTC--2022-01-25T14-33-53.459554000Z--59371aa5a5e541a88cd42c7cb3b189fceae762f9}
+    password: ${WEB3J_WALLET_PASSWORD:password}
+

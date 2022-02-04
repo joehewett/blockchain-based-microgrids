@@ -4,11 +4,11 @@ this agent is responsible for reading consumption/production, and requesting the
 
 ### Technologies used 
 
-####Web3j
+#### Web3j
 This Agent will mainly use Ethereum as a gateway for its transactions with other agents on the 
 network and therefore makes use of [``web3j``](https://docs.web3j.io/4.8.7/). <br>
 
-####Micronaut
+#### Micronaut
 [``Micronaut``](https://micronaut.io) is a light weight JVM based framework intended to aid in the creation of microservices. We use it specifically for 
 its dependency injection, configuration files. 
 

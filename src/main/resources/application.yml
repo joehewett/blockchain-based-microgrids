@@ -9,6 +9,6 @@ blockchain:
     host: ${NET_HOST:localhost}
     port: ${NET_PORT:8085}
   wallet:
-    dir: ${WEB3J_WALLET_PATH:/Users/University/Desktop/Git/year3/cs347/agent1/keystore/UTC--2022-02-04T12-42-05.322528000Z--a1de3f9b009404b3a2d6f8c7090b586524b8d800}
+    dir: ${WEB3J_WALLET_PATH:/Users/University/Desktop/Git/year3/cs347/agent1/keystore/}
     password: ${WEB3J_WALLET_PASSWORD:password}
 

@@ -6,5 +6,4 @@ public interface EthereumApi {
 
   String createWallet() throws Exception;
 
-  Credentials fetchWallet();
 }

@@ -61,14 +61,13 @@ services:
     networks:
       priv-eth-net:
 
-
   agent:
     image: agent
     hostname: agent
     depends_on:
       - geth-miner
     environment:
-      - WEB3J_WALLET_PATH=hello
+      - WEB3J_WALLET_PATH=/root/crypto/
       - WEB3J_WALLET_PASSWORD=password
     networks:
       priv-eth-net:

@@ -1,13 +1,17 @@
 package com.microgrid;
 
+import com.microgrid.config.Configuration;
 import com.microgrid.ethereum.EthereumApi;
-import io.micronaut.context.annotation.Value;
+import com.microgrid.ethereum.GethApi;
+import lombok.extern.slf4j.Slf4j;
+import org.web3j.crypto.Credentials;
+import org.web3j.protocol.Web3j;
+import org.web3j.protocol.Web3jService;
+import org.web3j.protocol.core.Request;
+import org.web3j.protocol.core.methods.response.MinerStartResponse;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import org.web3j.protocol.Web3j;
-import org.web3j.protocol.http.HttpService;
 
 /**
  * This is the generated class for <code>web3j new helloworld</code>
@@ -18,40 +22,44 @@ import org.web3j.protocol.http.HttpService;
  * href="https://docs.web3j.io/quickstart/#deployment">documentation</a>
  */
 @Singleton
+@Slf4j
 public class Agent {
 
-    // TODO: this should be extracted to a Configuration Singleton
-    // will do for now
-    //    @Value("${blockchain.node-url}")
-    private String nodeUrl = "http://geth-rpc-endpoint:8545";
-
-    @Value("${blockchain.wallet.password}")
-    private String walletPassword;
-
-    @Value("${blockchain.wallet.dir}")
-    private String walletPath;
+    @Inject
+    private Web3jService httpService;
 
     @Inject
-    private EthereumApi ethereumApi;
+    private Configuration config;
+
+    @Inject
+    private GethApi gethApi;
 
     public void start_agent() throws Exception {
-        //        Credentials credentials = WalletUtils.loadCredentials(walletPassword, walletPath);
-        Web3j web3j = Web3j.build(new HttpService(nodeUrl));
+        Web3j web3j = Web3j.build(httpService);
+        log.info("Successfully connected at {}", config.getUrl());
 
-        String dir = ethereumApi.createWallet();
-        System.out.println("The dir is " + dir);
+        MinerStartResponse sent = gethApi.minerStart(1).send();
+        if(sent.hasError()) {
+            log.error("Failed to start mining: {}", sent.getError().getMessage());
+            return;
+        } else {
+            log.info("Sucesfully started mining");
+        }
+
+
 
         //        // We need to use the transaction manager to specify the ChainID
         ////        RawTransactionManager transactionM = new RawTransactionManager(web3j, credentials,
         // 987);
-        ////        System.out.println("Deploying HelloWorld contract ... " + nodeUrl);
-        ////        HelloWorld helloWorld = HelloWorld.deploy(web3j, transactionM, new
-        // DefaultGasProvider(), "Hello Blockchain World!").send();
-        ////        System.out.println("Contract address: " + helloWorld.getContractAddress());
-        ////        System.out.println("Greeting method result: " + helloWorld.greeting().send());
+        //        System.out.println("Deploying HelloWorld contract ... " + nodeUrl);
+        //        HelloWorld helloWorld = HelloWorld.deploy(web3j, transactionM, new
+        //         DefaultGasProvider(), "Hello Blockchain World!").send();
+        //        System.out.println("Contract address: " + helloWorld.getContractAddress());
+        //        System.out.println("Greeting method result: " + helloWorld.greeting().send());
         //
         // Print acounts
         System.out.println("Agents:");
+
         web3j.ethAccounts().send().getAccounts().forEach(System.out::println);
     }
 }

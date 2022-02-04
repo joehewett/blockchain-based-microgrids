@@ -5,7 +5,6 @@ plugins {
     id "com.github.johnrengelman.shadow" version "6.1.0"
     id 'org.web3j' version '4.8.4'
     id("io.micronaut.application") version "1.4.2"
-    id "com.diffplug.spotless" version "6.2.1"
 }
 
 group 'com.microgrid'
@@ -81,13 +80,6 @@ compileKotlin {
 
 compileTestKotlin {
     kotlinOptions.jvmTarget = "11"
-}
-
-spotless {
-    java {
-        googleJavaFormat()
-        removeUnusedImports()
-    }
 }
 
 

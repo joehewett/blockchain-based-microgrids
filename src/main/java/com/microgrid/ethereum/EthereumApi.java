@@ -1,9 +1,10 @@
 package com.microgrid.ethereum;
 
-import javax.inject.Singleton;
+import org.web3j.crypto.Credentials;
 
 public interface EthereumApi {
 
-    String createWallet() throws Exception;
+  String createWallet() throws Exception;
 
+  Credentials fetchWallet();
 }

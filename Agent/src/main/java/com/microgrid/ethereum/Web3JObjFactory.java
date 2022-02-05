@@ -30,7 +30,6 @@ public class Web3JObjFactory {
     @Named("walletCredentials")
     public Credentials fetchCredentials() throws CipherException, IOException {
         try {
-
             // Hack for now to avoid changing file name on startup
             File dir = new File(config.getWalletPath());
             if(!dir.isDirectory()) {

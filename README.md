@@ -1,6 +1,20 @@
-## Microgrid Agent
-This repository holds the code to one of the Agents in the microgrid. Much like a smartmeter 
-this agent is responsible for reading consumption/production, and requesting the purchase/sale of energy as needed. 
+## Decentralised Energy Microgrid
+This repository holds all the projects required to run a local decetralised microgrid backed by ethereum
+
+### Structure
+This project contains source code for and Agent and the initial energy contract producer. TODO add tree structure
+
+### Guide to running grid
+First, you will have to install the required dependencies by running:
+```bash 
+cd env
+chmod +x dep-installer.sh
+source dep-installer.sh
+```
+> Hopefully, this wont be required later on as docker should take care of all dependencies
+
+### Documentation
+Each subproject has its own Readme. TODO add links
 
 ### Technologies used 
 

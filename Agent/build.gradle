@@ -15,6 +15,7 @@ sourceCompatibility = 11
 repositories {
     mavenCentral()
     jcenter()
+    mavenLocal()
 }
 
 micronaut {
@@ -24,11 +25,6 @@ micronaut {
         incremental(true)
         annotations("com.microgrid.*")
     }
-}
-
-web3j {
-    generatedPackageName = 'com.microgrid.generated.contracts'
-    excludedContracts = ['Mortal']
 }
 
 ext {
@@ -49,6 +45,10 @@ dependencies {
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut:micronaut-validation")
+
+    implementation ("com.contract:contract-lib:1.0.0-SNAPSHOT") {
+        changing = true
+    }
 
     // Lombok annotations
     compileOnly 'org.projectlombok:lombok:1.18.22'
@@ -80,6 +80,10 @@ compileKotlin {
 
 compileTestKotlin {
     kotlinOptions.jvmTarget = "11"
+}
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 
 

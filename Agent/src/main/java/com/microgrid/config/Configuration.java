@@ -28,7 +28,6 @@ public class Configuration {
     @Value("${blockchain.wallet.dir}")
     private String walletPath;
 
-
     public String getUrl()  {
         return String.format("%s://%s:%d", scheme, host, port);
     }

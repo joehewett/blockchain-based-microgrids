@@ -4,7 +4,7 @@ micronaut:
 
 blockchain:
   network:
-    chainId: ${NET_CHAIN_ID:123}
+    chainId: ${NET_CHAIN_ID:987}
     scheme: ${NET_SCHEME:http}
     host: ${NET_HOST:localhost}
     port: ${NET_PORT:8085}

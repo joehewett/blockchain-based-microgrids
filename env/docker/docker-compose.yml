@@ -1,0 +1,44 @@
+version: '3.7'
+
+networks:
+  priv-eth-net:
+    driver: bridge
+
+services:
+  bootnode:
+    hostname: bootnode
+    image: ethereum/client-go:alltools-stable
+    volumes:
+      - /Users/University/Desktop/Git/year3/cs347/microgrid/env/bootnode/:/some/
+    command:
+      bootnode --nodekey /some/bootnode.key
+    networks:
+      priv-eth-net:
+
+  contract-node:
+    hostname: nodeone
+    image: ethereum/client-go:alltools-stable
+    volumes:
+      - /Users/University/Desktop/Git/year3/cs347/microgrid/env/contract-node/keystore:/keystore
+    command:
+      geth --datadir --networkid=123 --http.api="eth,admin" --http --http.vhosts="*" --http.corsdomain="*" --http.addr="0.0.0.0" --http.port=8085
+    ports:
+      - "8085:8085"
+    depends_on:
+      - bootnode
+    networks:
+      priv-eth-net:
+
+  contract-producer:
+    hostname: contract-producer
+    image: contract-producer:latest
+    volumes:
+      - /Users/University/Desktop/Git/year3/cs347/microgrid/env/contract-node/keystore/:/keystore/
+    environment:
+      - WALLET_PATH=/keystore/
+      - WALLET_PASSWORD=password
+      - URL_SCHEME=http
+      - URL_HOST=nodeone
+      - URL_PORT=8085
+    networks:
+      priv-eth-net:

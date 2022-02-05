@@ -2,7 +2,6 @@ package com.microgrid;
 
 import com.microgrid.config.Configuration;
 import com.microgrid.ethereum.GethApi;
-import com.microgrid.generated.contracts.HelloWorld;
 import lombok.extern.slf4j.Slf4j;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
@@ -47,12 +46,6 @@ public class Agent {
             log.info("Successfully started mining");
         }
 
-        // We need to use the transaction manager to specify the ChainID
-        RawTransactionManager transactionM = new RawTransactionManager(web3j, credentials, config.getChainId());
-        System.out.println("Deploying HelloWorld contract ... " + config.getUrl());
-        HelloWorld helloWorld = HelloWorld.deploy(web3j, transactionM, new
-                DefaultGasProvider(), "Hello Blockchain World!").send();
-        System.out.println("Contract address: " + helloWorld.getContractAddress());
-        System.out.println("Greeting method result: " + helloWorld.greeting().send());
+        web3j.ethAccounts().send().getAccounts().forEach(System.out::println);
     }
 }

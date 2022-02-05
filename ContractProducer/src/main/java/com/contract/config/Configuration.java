@@ -24,6 +24,7 @@ public class Configuration {
     private String walletPath;
     // @ToString.Exclude would be needed for security
     private String walletPassword;
+    private long chainId;
 
     private Configuration() {
         loadProperties();
@@ -35,6 +36,7 @@ public class Configuration {
         port = Integer.parseInt(System.getenv().getOrDefault("URL_PORT", "8085"));
         walletPath = System.getenv().getOrDefault("WALLET_PATH", "/root/");
         walletPassword = System.getenv().getOrDefault("WALLET_PASSWORD", "password");
+        chainId = Long.parseLong(System.getenv().getOrDefault("CHAIN_ID", "123"));
     }
 
     public String getWalletPath() {

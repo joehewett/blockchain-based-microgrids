@@ -1,7 +1,29 @@
 ## Decentralised Energy Microgrid
 This repository holds all the projects required to run a local decetralised microgrid backed by ethereum
 
-### Structure
+### Project Structure
+<pre>├── Agent
+│   ├── Dockerfile
+│   ├── README.md
+│   ├── ...
+│   └── src
+├── ContractProducer
+│   ├── Dockerfile
+│   ├── README.md
+│   ├── ...
+│   └── src
+├── README.md
+└── env
+    ├── agent1
+    ├── agent2
+    ├── bin
+    ├── bootnode
+    ├── contract-node
+    ├── dep-installer.sh
+    ├── docker
+    └── run-env.sh
+</pre>
+
 This project contains source code for and Agent and the initial energy contract producer. TODO add tree structure
 
 ### Guide to running grid

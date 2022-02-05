@@ -22,8 +22,6 @@ services:
       - /Users/University/Desktop/Git/year3/cs347/microgrid/env/contract-node/keystore:/keystore
     command:
       geth --datadir --networkid=123 --http.api="eth,admin" --http --http.vhosts="*" --http.corsdomain="*" --http.addr="0.0.0.0" --http.port=8085
-    ports:
-      - "8085:8085"
     depends_on:
       - bootnode
     networks:
@@ -40,5 +38,39 @@ services:
       - URL_SCHEME=http
       - URL_HOST=nodeone
       - URL_PORT=8085
+      - CHAIN_ID=967
+    depends_on:
+      - contract-node
+    networks:
+      priv-eth-net:
+
+  first-node:
+    hostname: first-node
+    image: ethereum/client-go:alltools-stable
+    volumes:
+      - /Users/University/Desktop/Git/year3/cs347/microgrid/env/agent1/keystore/:/keystore/
+    command:
+      geth
+      --bootnodes enode://38612e2fae569b3adce5c5f40309b65b8f1113acde91ac92a8071f1b181a9a808ac3a379bea9d09d8d767418211826857d592906c0d4f72f105e43c8f9aaf380@bootnode:0?discport=30301
+      --datadir --networkid=123 --http.api="eth,admin" --http --http.vhosts="*" --http.corsdomain="*" --http.addr="0.0.0.0" --http.port=8085
+    depends_on:
+      - bootnode
+    networks:
+      priv-eth-net:
+
+  agent1:
+    hostname: first-agent
+    image: grid-agent
+    volumes:
+      - /Users/University/Desktop/Git/year3/cs347/microgrid/env/agent1/keystore/:/keystore/
+    depends_on:
+      - first-node
+    environment:
+      - NET_CHAIN_ID=967
+      - NET_SCHEME=http
+      - NET_HOST=first-node
+      - NET_PORT=8085
+      - WEB3J_WALLET_PATH=/keystore/
+      - WEB3J_WALLET_PASSWORD=password
     networks:
       priv-eth-net:

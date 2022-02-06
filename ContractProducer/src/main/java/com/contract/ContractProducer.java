@@ -16,13 +16,14 @@ public class ContractProducer {
     private static final Configuration config = Configuration.getInstance();
 
     public static void main(String[] args) throws Exception {
+        log.info("Running with config \n {}", config.toString());
         Credentials credentials = WalletUtils.loadCredentials(config.getWalletPassword(), config.getWalletPath());
 
         Web3j web3j = Web3j.build(new HttpService(config.getUrl()));
 
         log.info("Deploying contract");
         RawTransactionManager transactionManager = new RawTransactionManager(web3j, credentials, config.getChainId());
-        EnergyContract contract = EnergyContract.deploy(web3j, transactionManager, new DefaultGasProvider(), "This is a basic energy contract!")
+        EnergyContract contract = EnergyContract.deploy(web3j, transactionManager, new DefaultGasProvider())
                 .send();
         log.info("Contract created with address {}", contract.getContractAddress());
     }

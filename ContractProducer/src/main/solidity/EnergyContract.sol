@@ -1,44 +1,23 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.7.0;
 
-// Modified Greeter contract. Based on example at https://www.ethereum.org/greeter.
-
-contract Mortal {
-    /* Define variable owner of the type address*/
-    address owner;
-
-    /* this function is executed at initialization and sets the owner of the contract */
-    constructor () {owner = msg.sender;}
-
-    modifier onlyOwner {
-        require(
-            msg.sender == owner,
-            "Only owner can call this function."
-        );
-        _;
-    }
-
-    /* Function to recover the funds on the contract */
-    function kill() onlyOwner public {selfdestruct(msg.sender);}
-}
-
-contract EnergyContract is Mortal {
+contract EnergyContract {
     /* define variable greeting of the type string */
     string greet;
 
-    /* this runs when the contract is executed */
-    constructor (string memory _greet) {
-        greet = _greet;
+    int amountToBeSold = 0;
+    int amountToBeBought = 0;
+
+    function sellEnergy(int amount) public {
+        amountToBeSold += amount;
     }
 
-    function newGreeting(string memory _greet) onlyOwner public {
-        emit Modified(greet, _greet, greet, _greet);
-        greet = _greet;
+    function buyEnergy(int amount) public {
+        amountToBeBought += amount;
     }
 
-    /* main function */
-    function greeting() public view returns (string memory)  {
-        return greet;
+    function getToBeSold() public view returns (int) {
+        return amountToBeSold;
     }
 
     event Modified(

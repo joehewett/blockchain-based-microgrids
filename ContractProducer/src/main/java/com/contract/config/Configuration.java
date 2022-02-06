@@ -11,9 +11,9 @@ import java.util.Optional;
 
 /* Standard Singleton Class for configurations loaded from */
 
+@Slf4j
 @Getter
 @ToString
-@Slf4j
 public class Configuration {
 
     private static Configuration instance = null;
@@ -36,7 +36,7 @@ public class Configuration {
         port = Integer.parseInt(System.getenv().getOrDefault("URL_PORT", "8085"));
         walletPath = System.getenv().getOrDefault("WALLET_PATH", "/root/");
         walletPassword = System.getenv().getOrDefault("WALLET_PASSWORD", "password");
-        chainId = Long.parseLong(System.getenv().getOrDefault("CHAIN_ID", "123"));
+        chainId = Long.parseLong(System.getenv().getOrDefault("CHAIN_ID", "1"));
     }
 
     public String getWalletPath() {

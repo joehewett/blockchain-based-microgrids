@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 /* Standard Singleton Class for configurations loaded from */
 
@@ -47,7 +48,9 @@ public class Configuration {
             log.error("The wallet path must be a directory for now {}", walletPath);
             return null; // FIXME
         }
-        Optional<File> wallet = Arrays.stream(dir.listFiles()).findFirst();
+        Optional<File> wallet = Arrays.stream(dir.listFiles())
+                .filter(file -> file.getName().startsWith("UTC"))
+                .findFirst();
         if(wallet.isEmpty()) {
             log.error("Could not find wallet in {}", walletPath);
             return null;

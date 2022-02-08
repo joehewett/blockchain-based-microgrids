@@ -36,15 +36,16 @@ public class Web3JObjFactory {
                 log.error("The wallet path must be a directory for now");
                 return null; // FIXME
             }
-            Optional<File> wallet = Arrays.stream(dir.listFiles()).findFirst();
+            Optional<File> wallet = Arrays.stream(dir.listFiles())
+                    .filter(file -> file.getName().startsWith("UTC"))
+                    .findFirst();
             if(wallet.isEmpty()) {
                 log.error("Could not find wallet in {}", config.getWalletPath());
                 return null;
             }
-
             return WalletUtils.loadCredentials(config.getWalletPassword(), wallet.get().getAbsolutePath());
         } catch (Exception ex) {
-            log.error("Failed to load wallet at address {}", config.getWalletPath(), ex);
+            log.error("Failed to load wallet at address {} {}", config.getWalletPath(), ex);
 
             // Rethrow exceptions as we cannot recover from not finding the wallet key
             throw ex;

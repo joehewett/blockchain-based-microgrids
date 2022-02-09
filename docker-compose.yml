@@ -5,10 +5,10 @@ services:
     hostname: bootnode
     image: bootnode
     build:
-      context: .
-      dockerfile: ./bootnode/Dockerfile
+      context: eth_network
+      dockerfile: bootnode/Dockerfile
     volumes:
-      - ./bootnode/bootnode.key:/tmp/bootnode.key
+      - ./eth_network/bootnode/bootnode.key:/tmp/bootnode.key
     command:
       --networkid=31575
     networks:
@@ -18,12 +18,12 @@ services:
     hostname: contract-node
     image: miner-node
     build:
-      context: .
-      dockerfile: ./miner/Dockerfile
+      context: eth_network
+      dockerfile: miner/Dockerfile
     depends_on:
       - bootnode
     volumes:
-      - ./contract-producer/:/root/.ethereum/keystore
+      - ./eth_network/contract-producer/:/root/.ethereum/keystore
     command:
       --bootnodes="enode://2dc6792f1285b673f7c64182c7054c6190853ae06e8a9ae0e6daa1c68ebe543142a3ba2168bd0d540f9013967e47fb37dd0eac5c30fe13b3aed9ed66fa199bf2@bootnode:30303"
       --networkid=31575
@@ -42,10 +42,10 @@ services:
     hostname: contract-producer
     image: contract-producer
     build:
-      context: /Users/University/Desktop/Git/year3/cs347/microgrid/ContractProducer
+      context: ContractProducer
       dockerfile: Dockerfile
     volumes:
-      - ./contract-producer/:/root/.ethereum/keystore
+      - ./eth_network/contract-producer/:/root/.ethereum/keystore
     environment:
       - WALLET_PATH=/root/.ethereum/keystore/
       - WALLET_PASSWORD=password

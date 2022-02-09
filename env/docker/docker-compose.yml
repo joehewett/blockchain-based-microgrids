@@ -1,77 +1,37 @@
-version: '3.7'
-
-networks:
-  priv-eth-net:
-    driver: bridge
+version: '3'
 
 services:
-  bootnode:
-    hostname: bootnode
-    image: ethereum/client-go:alltools-stable
+  geth-bootnode:
+    hostname: geth-bootnode
+    image: bootnode
+    build:
+      context: .
+      dockerfile: ./bootnode/Dockerfile
     volumes:
-      - /Users/University/Desktop/Git/year3/cs347/microgrid/env/bootnode/:/some/
+      - ./bootnode/bootnode.key:/tmp/bootnode.key
     command:
-      bootnode --nodekey /some/bootnode.key
+      --networkid=31575
     networks:
-      priv-eth-net:
+      local-eth-network:
 
-  contract-node:
-    hostname: contractnode
+  geth-miner:
+    hostname: geth-miner
     image: miner-node
+    build:
+      context: .
+      dockerfile: ./miner/Dockerfile
+      args:
+        - ACCOUNT_PASSWORD=${ACCOUNT_PASSWORD}
+    depends_on:
+      - geth-bootnode
     volumes:
-      - /Users/University/Desktop/Git/year3/cs347/microgrid/env/contract-node/keystore:/root/.ethereum/keystore/
+      - ./contract-producer/:/root/.ethereum/keystore
     command:
-      --bootnodes enode://38612e2fae569b3adce5c5f40309b65b8f1113acde91ac92a8071f1b181a9a808ac3a379bea9d09d8d767418211826857d592906c0d4f72f105e43c8f9aaf380@bootnode:0?discport=30301
-    depends_on:
-      - bootnode
+      --bootnodes="enode://2dc6792f1285b673f7c64182c7054c6190853ae06e8a9ae0e6daa1c68ebe543142a3ba2168bd0d540f9013967e47fb37dd0eac5c30fe13b3aed9ed66fa199bf2@geth-bootnode:30303"
+      --networkid=31575
     networks:
-      priv-eth-net:
+      local-eth-network:
 
-  contract-producer:
-    hostname: contract-producer
-    image: contract-producer:latest
-    volumes:
-      - /Users/University/Desktop/Git/year3/cs347/microgrid/env/contract-node/keystore/:/root/.ethereum/keystore/
-    environment:
-      - WALLET_PATH=/root/.ethereum/keystore/
-      - WALLET_PASSWORD=password
-      - URL_SCHEME=http
-      - URL_HOST=contractnode
-      - URL_PORT=8085
-      - CHAIN_ID=31575
-    depends_on:
-      - contract-node
-    networks:
-      priv-eth-net:
-
-
-  # first-node:
-  #   hostname: first-node
-  #   image: ethereum/client-go:alltools-stable
-  #   volumes:
-  #     - /Users/University/Desktop/Git/year3/cs347/microgrid/env/agent1/keystore/:/keystore/
-  #   command:
-  #     geth
-  #     --bootnodes enode://38612e2fae569b3adce5c5f40309b65b8f1113acde91ac92a8071f1b181a9a808ac3a379bea9d09d8d767418211826857d592906c0d4f72f105e43c8f9aaf380@bootnode:0?discport=30301
-  #     --datadir --networkid=123 --http.api="eth,admin" --http --http.vhosts="*" --http.corsdomain="*" --http.addr="0.0.0.0" --http.port=8085
-  #   depends_on:
-  #     - bootnode
-  #   networks:
-  #     priv-eth-net:
-  #
-  # agent1:
-  #   hostname: first-agent
-  #   image: grid-agent
-  #   volumes:
-  #     - /Users/University/Desktop/Git/year3/cs347/microgrid/env/agent1/keystore/:/keystore/
-  #   depends_on:
-  #     - first-node
-  #   environment:
-  #     - NET_CHAIN_ID=967
-  #     - NET_SCHEME=http
-  #     - NET_HOST=first-node
-  #     - NET_PORT=8085
-  #     - WEB3J_WALLET_PATH=/keystore/
-  #     - WEB3J_WALLET_PASSWORD=password
-  #   networks:
-  #     priv-eth-net:
+networks:
+  local-eth-network:
+    driver: bridge

@@ -1,8 +1,8 @@
 version: '3'
 
 services:
-  geth-bootnode:
-    hostname: geth-bootnode
+  bootnode:
+    hostname: bootnode
     image: bootnode
     build:
       context: .
@@ -14,21 +14,45 @@ services:
     networks:
       local-eth-network:
 
-  geth-miner:
-    hostname: geth-miner
+  contract-node:
+    hostname: contract-node
     image: miner-node
     build:
       context: .
       dockerfile: ./miner/Dockerfile
-      args:
-        - ACCOUNT_PASSWORD=${ACCOUNT_PASSWORD}
     depends_on:
-      - geth-bootnode
+      - bootnode
     volumes:
       - ./contract-producer/:/root/.ethereum/keystore
     command:
-      --bootnodes="enode://2dc6792f1285b673f7c64182c7054c6190853ae06e8a9ae0e6daa1c68ebe543142a3ba2168bd0d540f9013967e47fb37dd0eac5c30fe13b3aed9ed66fa199bf2@geth-bootnode:30303"
+      --bootnodes="enode://2dc6792f1285b673f7c64182c7054c6190853ae06e8a9ae0e6daa1c68ebe543142a3ba2168bd0d540f9013967e47fb37dd0eac5c30fe13b3aed9ed66fa199bf2@bootnode:30303"
       --networkid=31575
+      --http
+      --http.api="personal,eth,admin,miner"
+      --http.vhosts="*"
+      --http.corsdomain="*"
+      --http.addr="0.0.0.0"
+      --http.port=8085
+      --unlock=0xdb044d024331aa4a4a019cef625dfca419cf73df
+      --password=/password.txt
+    networks:
+      local-eth-network:
+
+  contract-producer:
+    hostname: contract-producer
+    image: contract-producer
+    build:
+      context: /Users/University/Desktop/Git/year3/cs347/microgrid/ContractProducer
+      dockerfile: Dockerfile
+    volumes:
+      - ./contract-producer/:/root/.ethereum/keystore
+    environment:
+      - WALLET_PATH=/root/.ethereum/keystore/
+      - WALLET_PASSWORD=password
+      - URL_SCHEME=http
+      - URL_HOST=contract-node
+      - URL_PORT=8085
+      - CHAIN_ID=31575
     networks:
       local-eth-network:
 

@@ -4,11 +4,11 @@ micronaut:
 
 blockchain:
   network:
-    chainId: ${NET_CHAIN_ID:1}
+    chainId: ${NET_CHAIN_ID:31575}
     scheme: ${NET_SCHEME:http}
     host: ${NET_HOST:localhost}
     port: ${NET_PORT:8085}
   wallet:
-    dir: ${WEB3J_WALLET_PATH:/Users/University/Desktop/Git/year3/cs347/agent1/keystore/}
+    dir: ${WEB3J_WALLET_PATH:/Users/University/Desktop/Git/year3/cs347/microgrid/eth_network/agent1}
     password: ${WEB3J_WALLET_PASSWORD:password}
 

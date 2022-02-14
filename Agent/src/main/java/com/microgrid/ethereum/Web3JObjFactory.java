@@ -57,5 +57,4 @@ public class Web3JObjFactory {
         return new HttpService(config.getUrl());
     }
 
-
 }

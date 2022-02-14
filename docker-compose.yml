@@ -43,7 +43,7 @@ services:
     image: contract-producer
     build:
       context: ContractProducer
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.local
     volumes:
       - ./eth_network/contract-producer/:/root/.ethereum/keystore
     environment:
@@ -55,6 +55,10 @@ services:
       - CHAIN_ID=31575
     networks:
       local-eth-network:
+
+  # Agents will be added in a seperate Dockerfile as
+  # this file is simply the pre-existing infrastructure that is expected to
+  # exist prior to anyone joining the network
 
   agent1-node:
     hostname: agent1-node
@@ -81,6 +85,7 @@ services:
       - "8085:8085"
     networks:
       local-eth-network:
+
 
 networks:
   local-eth-network:

@@ -1,0 +1,46 @@
+plugins {
+    id 'java-library'
+    id "com.github.johnrengelman.shadow" version "5.2.0"
+    id 'org.web3j' version '4.8.4'
+    id 'maven-publish'
+}
+
+group 'com.contract'
+version '1.0.0-SNAPSHOT'
+
+sourceCompatibility = 11
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+web3j {
+    generatedPackageName = 'com.contract.generated.contracts'
+    excludedContracts = ['Mortal']
+}
+
+ext {
+    web3jVersion = '4.8.4'
+}
+
+dependencies {
+    implementation "org.web3j:core:$web3jVersion"
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
+}
+
+
+test {
+    useJUnitPlatform()
+}
+

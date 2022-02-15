@@ -2,6 +2,10 @@ micronaut:
   application:
     name: agent
 
+microgrid:
+  production-rate: 50
+  consumption-rate: 40
+
 blockchain:
   network:
     chainId: ${NET_CHAIN_ID:31575}

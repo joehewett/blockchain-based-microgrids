@@ -1,0 +1,24 @@
+version: '3.7'
+
+networks:
+  microgrid_local-eth-network:
+    external: true
+
+services:
+  agent-one:
+    hostname: agent-one
+    image: grid-agent
+    build:
+      context: Agent
+      dockerfile: Dockerfile.local
+    volumes:
+      - ./eth_network/agent1/:/root/.ethereum/keystore
+    environment:
+      - NET_CHAIN_ID=31575
+      - NET_SCHEME=http
+      - NET_HOST=agent1-node
+      - NET_PORT=8085
+      - WEB3J_WALLET_PATH=/root/.ethereum/keystore
+      - WEB3J_WALLET_PASSWORD=password
+    networks:
+      microgrid_local-eth-network:

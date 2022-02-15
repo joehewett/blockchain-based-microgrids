@@ -19,14 +19,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.math.BigInteger;
 
-/**
- * This is the generated class for <code>web3j new helloworld</code>
- *
- * <p>It deploys the Hello World contract in src/main/solidity/ and prints its address
- *
- * <p>For more information on how to run this project, please refer to our <a
- * href="https://docs.web3j.io/quickstart/#deployment">documentation</a>
- */
 @Singleton
 @Slf4j
 public class Agent {

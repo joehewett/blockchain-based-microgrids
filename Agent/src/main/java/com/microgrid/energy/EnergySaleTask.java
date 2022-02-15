@@ -11,18 +11,17 @@ import java.math.BigInteger;
 @AllArgsConstructor
 public class EnergySaleTask implements Runnable {
 
-    private final Producer producer;
-    private final Consumer consumer;
+    private final SmartMeter smartMeter;
     private final EnergyContract contract;
 
     @Override
     public void run() {
-        int excessEnergy = producer.produce_energy() - consumer.consume_energy();
+        long excessEnergy = smartMeter.getProducedEnergy() - smartMeter.getConsumedEnergy();
         if (excessEnergy > 0) {
             log.info("Selling energy {}", excessEnergy);
             contract.sellEnergy(BigInteger.valueOf(excessEnergy)).sendAsync();
         } else {
-            log.info("No energy to sell {}", excessEnergy);
+            log.debug("No energy to sell {}", excessEnergy);
         }
     }
 }

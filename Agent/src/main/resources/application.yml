@@ -3,8 +3,8 @@ micronaut:
     name: agent
 
 microgrid:
-  production-rate: 50
-  consumption-rate: 40
+  productionRate: 50
+  consumptionRate: 75
 
 blockchain:
   network:

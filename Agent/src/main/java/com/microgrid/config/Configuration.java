@@ -28,6 +28,20 @@ public class Configuration {
     @Value("${blockchain.wallet.dir}")
     private String walletPath;
 
+    @Value("${microgrid.consumptionRate}")
+    private double consumptionRate;
+
+    @Value("${microgrid.productionRate}")
+    private double productionRate;
+
+    public double getConsumptionRate() {
+        return consumptionRate/100.0;
+    }
+
+    public double getProductionRate() {
+        return productionRate/100.0;
+    }
+
     public String getUrl()  {
         return String.format("%s://%s:%d", scheme, host, port);
     }

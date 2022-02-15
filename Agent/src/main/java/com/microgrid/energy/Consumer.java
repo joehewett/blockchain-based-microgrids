@@ -13,14 +13,7 @@ public class Consumer {
     @Inject
     private WeatherReader weatherReader;
 
-    private static final long BASE_CONSUMPTION = 10000;
-
-    int consume_energy() {
-
-        weatherReader.getWeatherReading();
-
-
-
+    public int consume_energy() {
         // What are the units
         return ThreadLocalRandom.current().nextInt(0, 100);
     }

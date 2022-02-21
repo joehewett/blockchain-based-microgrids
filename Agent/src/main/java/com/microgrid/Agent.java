@@ -67,7 +67,7 @@ public class Agent {
         // Spans a separate thread for consumption
         EthFilter filter = new EthFilter(DefaultBlockParameterName.LATEST, DefaultBlockParameterName.LATEST, contractAddress);
         contract.announceSaleIntentionEventFlowable(filter)
-                .subscribe(new EnergySaleListener(smartMeter, contract));
+                .subscribe(new EnergySaleListener(smartMeter, contract, credentials));
     }
 
     public void startPeriodicEnergySale(final EnergyContract contract) {

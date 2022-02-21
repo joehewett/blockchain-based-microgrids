@@ -17,11 +17,12 @@ public class EnergySaleTask implements Runnable {
     @Override
     public void run() {
         long excessEnergy = smartMeter.getProducedEnergy() - smartMeter.getConsumedEnergy();
+        log.info("Produced: {}, Consumed: {}", smartMeter.getProducedEnergy(), smartMeter.getConsumedEnergy());
         if (excessEnergy > 0) {
             log.info("Selling energy {}", excessEnergy);
             contract.sellEnergy(BigInteger.valueOf(excessEnergy)).sendAsync();
         } else {
-            log.debug("No energy to sell {}", excessEnergy);
+            log.info("No energy to sell {}", excessEnergy);
         }
     }
 }

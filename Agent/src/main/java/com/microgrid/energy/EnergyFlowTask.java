@@ -17,7 +17,7 @@ public class EnergyFlowTask implements Runnable {
 
     @Override
     public void run() {
-        smartMeter.addConsumedEnergy((int)(ENERGY * productionRate));
+        smartMeter.addProducedEnergy((int)(ENERGY * productionRate));
         smartMeter.addConsumedEnergy((int)(ENERGY * consumptionRate));
     }
 }

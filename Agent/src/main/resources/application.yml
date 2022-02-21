@@ -3,8 +3,8 @@ micronaut:
     name: agent
 
 microgrid:
-  productionRate: 50
-  consumptionRate: 75
+  productionRate: ${PRODUCTION_RATE:50}
+  consumptionRate: ${CONSUMPTION_RATE:75}
 
 blockchain:
   network:

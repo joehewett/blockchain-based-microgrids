@@ -81,8 +81,30 @@ services:
       --http.port=8085
       --unlock=0x685fbc3ddae415d0a73031b4192f6f46b11f7735
       --password=/password.txt
-    ports:
-      - "8085:8085"
+    networks:
+      local-eth-network:
+
+  agent2-node:
+    hostname: agent2-node
+    image: miner-node
+    build:
+      context: eth_network
+      dockerfile: miner/Dockerfile
+    depends_on:
+      - bootnode
+    volumes:
+      - ./eth_network/agent2/:/root/.ethereum/keystore
+    command:
+      --bootnodes="enode://2dc6792f1285b673f7c64182c7054c6190853ae06e8a9ae0e6daa1c68ebe543142a3ba2168bd0d540f9013967e47fb37dd0eac5c30fe13b3aed9ed66fa199bf2@bootnode:30303"
+      --networkid=31575
+      --http
+      --http.api="personal,eth,admin,miner"
+      --http.vhosts="*"
+      --http.corsdomain="*"
+      --http.addr="0.0.0.0"
+      --http.port=8085
+      --unlock=0x293839697e7197e1e3ef553f4434edfa499791ee
+      --password=/password.txt
     networks:
       local-eth-network:
 

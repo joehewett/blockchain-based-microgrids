@@ -20,5 +20,27 @@ services:
       - NET_PORT=8085
       - WEB3J_WALLET_PATH=/root/.ethereum/keystore
       - WEB3J_WALLET_PASSWORD=password
+      - PRODUCTION_RATE=50
+      - CONSUMPTION_RATE=100
+    networks:
+      microgrid_local-eth-network:
+
+  agent-two:
+    hostname: agent-two
+    image: grid-agent
+    build:
+      context: Agent
+      dockerfile: Dockerfile.local
+    volumes:
+      - ./eth_network/agent2/:/root/.ethereum/keystore
+    environment:
+      - NET_CHAIN_ID=31575
+      - NET_SCHEME=http
+      - NET_HOST=agent2-node
+      - NET_PORT=8085
+      - WEB3J_WALLET_PATH=/root/.ethereum/keystore
+      - WEB3J_WALLET_PASSWORD=password
+      - PRODUCTION_RATE=100
+      - CONSUMPTION_RATE=50
     networks:
       microgrid_local-eth-network:

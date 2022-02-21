@@ -27,6 +27,8 @@ services:
     command:
       --bootnodes="enode://2dc6792f1285b673f7c64182c7054c6190853ae06e8a9ae0e6daa1c68ebe543142a3ba2168bd0d540f9013967e47fb37dd0eac5c30fe13b3aed9ed66fa199bf2@bootnode:30303"
       --networkid=31575
+      --mine
+      --miner.threads=1
       --http
       --http.api="personal,eth,admin,miner"
       --http.vhosts="*"

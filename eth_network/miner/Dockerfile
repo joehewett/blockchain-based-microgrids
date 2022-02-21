@@ -7,4 +7,4 @@ RUN geth init /tmp/genesis.json \
     && echo "password" > password.txt \
     && rm -f ~/.ethereum/geth/nodekey
 
-ENTRYPOINT ["geth", "--mine", "--miner.threads=1", "--allow-insecure-unlock"]
+ENTRYPOINT ["geth", "--allow-insecure-unlock"]

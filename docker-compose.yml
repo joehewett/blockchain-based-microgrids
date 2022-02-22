@@ -3,14 +3,12 @@ version: '3'
 services:
   bootnode:
     hostname: bootnode
-    image: bootnode
-    build:
-      context: eth_network
-      dockerfile: bootnode/Dockerfile
+    image: ethereum/client-go:alltools-v1.10.16
     volumes:
       - ./eth_network/bootnode/bootnode.key:/tmp/bootnode.key
     command:
-      --networkid=31575
+      bootnode
+      -nodekey /tmp/bootnode.key
     networks:
       local-eth-network:
 
@@ -25,7 +23,7 @@ services:
     volumes:
       - ./eth_network/contract-producer/:/root/.ethereum/keystore
     command:
-      --bootnodes="enode://2dc6792f1285b673f7c64182c7054c6190853ae06e8a9ae0e6daa1c68ebe543142a3ba2168bd0d540f9013967e47fb37dd0eac5c30fe13b3aed9ed66fa199bf2@bootnode:30303"
+      --bootnodes="enode://2dc6792f1285b673f7c64182c7054c6190853ae06e8a9ae0e6daa1c68ebe543142a3ba2168bd0d540f9013967e47fb37dd0eac5c30fe13b3aed9ed66fa199bf2@bootnode:0?discport=30301"
       --networkid=31575
       --mine
       --miner.threads=1
@@ -73,8 +71,10 @@ services:
     volumes:
       - ./eth_network/agent1/:/root/.ethereum/keystore
     command:
-      --bootnodes="enode://2dc6792f1285b673f7c64182c7054c6190853ae06e8a9ae0e6daa1c68ebe543142a3ba2168bd0d540f9013967e47fb37dd0eac5c30fe13b3aed9ed66fa199bf2@bootnode:30303"
+      --bootnodes="enode://2dc6792f1285b673f7c64182c7054c6190853ae06e8a9ae0e6daa1c68ebe543142a3ba2168bd0d540f9013967e47fb37dd0eac5c30fe13b3aed9ed66fa199bf2@bootnode:0?discport=30301"
       --networkid=31575
+      --mine
+      --miner.threads=1
       --http
       --http.api="personal,eth,admin,miner"
       --http.vhosts="*"
@@ -97,9 +97,11 @@ services:
     volumes:
       - ./eth_network/agent2/:/root/.ethereum/keystore
     command:
-      --bootnodes="enode://2dc6792f1285b673f7c64182c7054c6190853ae06e8a9ae0e6daa1c68ebe543142a3ba2168bd0d540f9013967e47fb37dd0eac5c30fe13b3aed9ed66fa199bf2@bootnode:30303"
+      --bootnodes="enode://2dc6792f1285b673f7c64182c7054c6190853ae06e8a9ae0e6daa1c68ebe543142a3ba2168bd0d540f9013967e47fb37dd0eac5c30fe13b3aed9ed66fa199bf2@bootnode:0?discport=30301"
       --networkid=31575
       --http
+      --mine
+      --miner.threads=1
       --http.api="personal,eth,admin,miner"
       --http.vhosts="*"
       --http.corsdomain="*"

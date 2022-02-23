@@ -1,6 +1,7 @@
-package com.microgrid.energy;
+package com.microgrid.ethereum.contract;
 
 import com.contract.generated.contracts.EnergyContract;
+import com.microgrid.energy.SmartMeter;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.web3j.crypto.Credentials;
@@ -9,7 +10,7 @@ import java.math.BigInteger;
 
 @Slf4j
 @AllArgsConstructor
-public class EnergySaleListener implements io.reactivex.functions.Consumer<EnergyContract.AnnounceSaleIntentionEventResponse> {
+public class EnergyOfferListener implements io.reactivex.functions.Consumer<EnergyContract.AnnounceSaleIntentionEventResponse> {
 
     private final SmartMeter smartMeter;
     private final EnergyContract contract;
@@ -18,15 +19,19 @@ public class EnergySaleListener implements io.reactivex.functions.Consumer<Energ
     @Override
     public void accept(EnergyContract.AnnounceSaleIntentionEventResponse saleEvent) throws Exception {
         // Ignore your own sales
-        if(credentials.getAddress().equals(saleEvent.seller)) {
+        if (!credentials.getAddress().equals(saleEvent.seller)) {
 
             long result = smartMeter.getConsumedEnergy() - smartMeter.getProducedEnergy();
-            if(result > 0) {
-                contract.buyEnergy(BigInteger.valueOf(result));
-                log.info("Buying energy");
+            if (result > 0) {
+                // DO we want it to be blocking?
+                // This assumes a price of 1
+                contract.buyEnergy(BigInteger.valueOf(result), BigInteger.valueOf(result)).send();
+                log.info("Bought energy");
             } else {
-                log.info("Ignoring nothing to sell");
+                log.info("Ignoring nothing to buy");
             }
+        } else {
+            log.info("Non of my business");
         }
         // Check if I need to sell
     }

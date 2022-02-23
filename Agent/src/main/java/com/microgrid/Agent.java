@@ -2,12 +2,14 @@ package com.microgrid;
 
 import com.contract.generated.contracts.EnergyContract;
 import com.microgrid.config.Configuration;
-import com.microgrid.energy.EnergySaleListener;
-import com.microgrid.energy.EnergySaleTask;
 import com.microgrid.energy.EnergySystem;
 import com.microgrid.energy.SmartMeter;
 import com.microgrid.ethereum.ContractFetcher;
+import com.microgrid.ethereum.contract.EnergyOfferListener;
+import com.microgrid.ethereum.contract.EnergySaleListener;
+import com.microgrid.ethereum.contract.EnergySaleTask;
 import lombok.extern.slf4j.Slf4j;
+import org.web3j.abi.EventEncoder;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jService;
@@ -18,6 +20,7 @@ import org.web3j.tx.gas.DefaultGasProvider;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.math.BigInteger;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -39,6 +42,9 @@ public class Agent {
     @Inject
     private SmartMeter smartMeter;
 
+    // Worth remembering
+    // https://github.com/ethereum/go-ethereum/issues/14945
+
     public void start_agent() throws Exception {
         Web3j web3j = Web3j.build(httpService);
         log.info("Successfully connected at {}", config.getUrl());
@@ -57,17 +63,35 @@ public class Agent {
 
         // Subscribes to contract events to check for available purchasing options
         activateSaleListener(contract);
+        // Subscribes to completed sale events
+        subscribeToCompletedSales(contract);
 
         // Spans thread to periodically sell energy if needed
-        startPeriodicEnergySale(contract);
+        // startPeriodicEnergySale(contract);
+
+        if (config.getConsumptionRate() < config.getProductionRate()) {
+            log.info("Selling energy");
+            contract.sellEnergy(BigInteger.valueOf(500)).send();
+            log.info("Sold energy");
+        }
+    }
+
+    public void subscribeToCompletedSales(final EnergyContract contract) {
+        String contractAddress = contract.getContractAddress();
+        // Spans a separate thread for consumption
+        EthFilter filter = new EthFilter(DefaultBlockParameterName.LATEST, DefaultBlockParameterName.LATEST, contractAddress);
+        filter.addSingleTopic(EventEncoder.encode(EnergyContract.SALEGONETHROUGH_EVENT));
+        contract.saleGoneThroughEventFlowable(filter)
+                .subscribe(new EnergySaleListener(credentials, smartMeter));
     }
 
     public void activateSaleListener(final EnergyContract contract) {
         String contractAddress = contract.getContractAddress();
         // Spans a separate thread for consumption
         EthFilter filter = new EthFilter(DefaultBlockParameterName.LATEST, DefaultBlockParameterName.LATEST, contractAddress);
+        filter.addSingleTopic(EventEncoder.encode(EnergyContract.ANNOUNCESALEINTENTION_EVENT));
         contract.announceSaleIntentionEventFlowable(filter)
-                .subscribe(new EnergySaleListener(smartMeter, contract, credentials));
+                .subscribe(new EnergyOfferListener(smartMeter, contract, credentials));
     }
 
     public void startPeriodicEnergySale(final EnergyContract contract) {

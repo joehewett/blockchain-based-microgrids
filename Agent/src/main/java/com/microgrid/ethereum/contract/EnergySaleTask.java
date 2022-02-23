@@ -1,7 +1,8 @@
-package com.microgrid.energy;
+package com.microgrid.ethereum.contract;
 
 
 import com.contract.generated.contracts.EnergyContract;
+import com.microgrid.energy.SmartMeter;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

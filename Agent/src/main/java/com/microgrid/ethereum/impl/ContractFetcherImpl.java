@@ -2,6 +2,7 @@ package com.microgrid.ethereum.impl;
 
 import com.microgrid.ethereum.ContractFetcher;
 import lombok.extern.slf4j.Slf4j;
+import org.reactivestreams.Publisher;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jService;
 import org.web3j.protocol.core.DefaultBlockParameterNumber;

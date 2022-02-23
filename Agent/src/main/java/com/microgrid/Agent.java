@@ -67,13 +67,13 @@ public class Agent {
         subscribeToCompletedSales(contract);
 
         // Spans thread to periodically sell energy if needed
-        // startPeriodicEnergySale(contract);
+         startPeriodicEnergySale(contract, 15);
 
-        if (config.getConsumptionRate() < config.getProductionRate()) {
-            log.info("Selling energy");
-            contract.sellEnergy(BigInteger.valueOf(500)).send();
-            log.info("Sold energy");
-        }
+//        if (config.getConsumptionRate() < config.getProductionRate()) {
+//            log.info("Selling energy");
+//            contract.sellEnergy(BigInteger.valueOf(500)).send();
+//            log.info("Sold energy");
+//        }
     }
 
     public void subscribeToCompletedSales(final EnergyContract contract) {
@@ -94,11 +94,11 @@ public class Agent {
                 .subscribe(new EnergyOfferListener(smartMeter, contract, credentials));
     }
 
-    public void startPeriodicEnergySale(final EnergyContract contract) {
+    public void startPeriodicEnergySale(final EnergyContract contract, int delay) {
         // Spawns a thread that will execute a sale attempt every n seconds
         ScheduledExecutorService executorService = Executors
                 .newSingleThreadScheduledExecutor();
-        executorService.scheduleWithFixedDelay(new EnergySaleTask(smartMeter, contract), 5, 5, TimeUnit.SECONDS);
+        executorService.scheduleWithFixedDelay(new EnergySaleTask(smartMeter, contract), 5, delay, TimeUnit.SECONDS);
 
         // We ignore the thread cleanup, ideally it would be linked to a container shutdown event
     }

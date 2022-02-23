@@ -30,8 +30,6 @@ public class EnergyOfferListener implements io.reactivex.functions.Consumer<Ener
             } else {
                 log.info("Ignoring nothing to buy");
             }
-        } else {
-            log.info("Non of my business");
         }
         // Check if I need to sell
     }

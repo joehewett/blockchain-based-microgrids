@@ -13,7 +13,6 @@ public class StartUp implements ApplicationEventListener<StartupEvent> {
 
   @Inject
   private Agent agent;
-
   @Inject
   private Configuration config;
 

@@ -26,23 +26,48 @@ This repository holds all the projects required to run a local decetralised micr
 
 </pre>
 
-This project contains source code for and Agent and the initial energy contract producer. TODO add tree structure
+This project contains source code for and Agent and the initial energy contract producer.
 
-### Guide to running grid
+## Guide to running the grid
 Currently, the microgrid is simmulated by running all components contanierised and connected via ``docker-compose``. 
 
 #### Required dependencies
 The only dependency you will need is ``docker`` and ``docker compose``:
 * __Mac__: Install [Docker Desktop](https://docs.docker.com/desktop/mac/install/)
 * __Linux__: Install [Docker Engine](https://docs.docker.com/engine/install/) and [Docker Compose](https://docs.docker.com/compose/install/)
+* TODO consider JDK and npm now
 
-Docker is the only required dependency as all operations running/building is performed in containers. While this does mean it takes a while to build it also allows us to be consistent amoung different development machines
+### Building source code
+From the project root dir run the following:
 ```
-cd PROJECT_DIR
+chmod +x ./local-build.sh
+source ./local-build.sh
+```
+> Source is used as the required dependencies are installed locally to ``./bin`` and added to the PATH
+
+> The script does the following:
+> * Build and publish the solidity contract to ``MavenLocal`` (default: ``~/.m2``)
+> * Build ``ContractPublisher`` (dependent on contract from ``MavenLocal``)
+> * Build ``Agent`` (dependent on contract from ``MavenLocal``)
+
+### Running microgrid
+Two docker compose files hold all the necessary configurations to connect the grid:
+
+* ``docker-compose.yml``: Holds the code for grid infrastructure such as bootnodes and contracts
+* ``docker-compose.agents.yml``: specifies the containers including ethereum nodes and smart agents 
+
+Run the network infrastructure by executing:
+```
 docker compose up
 ```
+Next the agents can be run by running:
+```
+docker compose -f docker-compose.agents.yml up
+```
 
-### Monitoring
+> TODO: here we could potentially add the ethereum nodes
+
+## Monitoring
 All metrics and statistics for each node in the network are collected and exposed at ``http://localhost:3000``. The interace is provided by [``eth-netstat``](https://github.com/cubedro/eth-netstats) who offer a simple UI to expose node metrics. The project is licensed under GNU General Public License v3.0. 
 
 > The aim of this dashboard is to easily export statistics which will later on help in the comparison of different _consensus algorithms_ (PoA vs PoW)

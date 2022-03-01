@@ -8,6 +8,7 @@ services:
   agent-one:
     hostname: agent-one
     image: grid-agent
+    restart: on-failure
     build:
       context: Agent
       dockerfile: Dockerfile.local
@@ -28,6 +29,7 @@ services:
   agent-two:
     hostname: agent-two
     image: grid-agent
+    restart: on-failure
     build:
       context: Agent
       dockerfile: Dockerfile.local

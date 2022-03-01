@@ -4,6 +4,7 @@ services:
   bootnode:
     hostname: bootnode
     image: ethereum/client-go:alltools-v1.10.16
+    restart: on-failure
     volumes:
       - ./eth_network/bootnode/bootnode.key:/tmp/bootnode.key
     command:
@@ -15,6 +16,7 @@ services:
   contract-node:
     hostname: contract-node
     image: miner-node
+    restart: on-failure
     build:
       context: eth_network
       dockerfile: miner/Dockerfile
@@ -28,19 +30,25 @@ services:
       --mine
       --miner.threads=1
       --http
-      --http.api="personal,eth,admin,miner"
+      --http.api="personal,eth,admin,miner,web3"
       --http.vhosts="*"
       --http.corsdomain="*"
       --http.addr="0.0.0.0"
       --http.port=8085
+      --ethstats="contract-node:password@ws://ethstats:3000"
       --unlock=0xdb044d024331aa4a4a019cef625dfca419cf73df
       --password=/password.txt
+    ports:
+      - "8545:8545"
+    depends_on:
+      - ethstats
     networks:
       local-eth-network:
 
   contract-producer:
     hostname: contract-producer
     image: contract-producer
+    restart: on-failure
     build:
       context: ContractProducer
       dockerfile: Dockerfile.local
@@ -56,6 +64,18 @@ services:
     networks:
       local-eth-network:
 
+  ethstats:
+    hostname: ethstats
+    image: puppeth/ethstats
+    environment:
+      - WS_SECRET=password
+    ports:
+      - "3000:3000"
+    networks:
+      local-eth-network:
+
+
+
   # Agents will be added in a seperate Dockerfile as
   # this file is simply the pre-existing infrastructure that is expected to
   # exist prior to anyone joining the network
@@ -63,6 +83,7 @@ services:
   agent1-node:
     hostname: agent1-node
     image: miner-node
+    restart: on-failure
     build:
       context: eth_network
       dockerfile: miner/Dockerfile
@@ -81,6 +102,7 @@ services:
       --http.corsdomain="*"
       --http.addr="0.0.0.0"
       --http.port=8085
+      --ethstats="agent-1-node:password@ws://ethstats:3000"
       --unlock=0x685fbc3ddae415d0a73031b4192f6f46b11f7735
       --password=/password.txt
     networks:
@@ -89,6 +111,7 @@ services:
   agent2-node:
     hostname: agent2-node
     image: miner-node
+    restart: on-failure
     build:
       context: eth_network
       dockerfile: miner/Dockerfile
@@ -107,11 +130,11 @@ services:
       --http.corsdomain="*"
       --http.addr="0.0.0.0"
       --http.port=8085
+      --ethstats="agent-2-node:password@ws://ethstats:3000"
       --unlock=0x293839697e7197e1e3ef553f4434edfa499791ee
       --password=/password.txt
     networks:
       local-eth-network:
-
 
 networks:
   local-eth-network:

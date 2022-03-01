@@ -42,8 +42,22 @@ cd PROJECT_DIR
 docker compose up
 ```
 
+### Monitoring
+All metrics and statistics for each node in the network are collected and exposed at ``http://localhost:3000``. The interace is provided by [``eth-netstat``](https://github.com/cubedro/eth-netstats) who offer a simple UI to expose node metrics. The project is licensed under GNU General Public License v3.0. 
+
+> The aim of this dashboard is to easily export statistics which will later on help in the comparison of different _consensus algorithms_ (PoA vs PoW)
+
+If successfully set up, the metrics should look like:
+
+<img width="1436" alt="Screenshot 2022-03-01 at 19 37 59" src="https://user-images.githubusercontent.com/44194617/156236719-d166d2f8-28a7-4394-a1ac-e19304b40ab6.png">
+
+
 ### Documentation
-Each subproject has its own Readme. TODO add links
+Each subproject has its own _README_:
+
+* [Agent]()
+* [Contract Producer]()
+* [Environment]()
 
 ### Technologies used 
 

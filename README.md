@@ -1,5 +1,9 @@
 ## Decentralised Energy Microgrid
-This repository holds all the projects required to run a local decetralised microgrid backed by ethereum
+This repository holds all the projects required to run a local decetralised microgrid backed by ethereum. Namely:
+
+* [Agent](): Smart agent which is connected to a smartmeter (mocked) and communicates with Ethereum nodes to buy/sell via a smart contract
+* [Contract Producer](): Core component of the network infrastructure which publishes the initial smart contract and terminates
+* [Environment](): all configurations to spin up a private ethereum network (genesis files, crypto wallets) 
 
 ### Project Structure
 <pre>├── Agent
@@ -12,6 +16,10 @@ This repository holds all the projects required to run a local decetralised micr
 │   ├── Dockerfile
 │   ├── Dockerfile.local
 │   │   ├── README.md
+│   └── src
+├── ContractLib
+│   ├── build.gradle
+│   ├── README.md
 │   └── src
 ├── dep-installer.sh
 ├── docker-compose.yml

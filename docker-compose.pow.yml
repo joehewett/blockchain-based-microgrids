@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 
 services:
   bootnode:
@@ -19,17 +19,14 @@ services:
     restart: on-failure
     build:
       context: eth_network
-      dockerfile: miner/Dockerfile
+      dockerfile: miner/Dockerfile.pow
     depends_on:
       - bootnode
     volumes:
       - ./eth_network/contract-producer/:/root/.ethereum/keystore
     command:
       --bootnodes="enode://2dc6792f1285b673f7c64182c7054c6190853ae06e8a9ae0e6daa1c68ebe543142a3ba2168bd0d540f9013967e47fb37dd0eac5c30fe13b3aed9ed66fa199bf2@bootnode:0?discport=30301"
-      --networkid=31575
-      --mine
-      --miner.threads=1
-      --http
+      --networkid=22222
       --http.api="personal,eth,admin,miner,web3"
       --http.vhosts="*"
       --http.corsdomain="*"
@@ -38,8 +35,6 @@ services:
       --ethstats="contract-node:password@ws://ethstats:3000"
       --unlock=0xdb044d024331aa4a4a019cef625dfca419cf73df
       --password=/password.txt
-    ports:
-      - "8545:8545"
     depends_on:
       - ethstats
     networks:
@@ -60,7 +55,7 @@ services:
       - URL_SCHEME=http
       - URL_HOST=contract-node
       - URL_PORT=8085
-      - CHAIN_ID=31575
+      - CHAIN_ID=22222
     networks:
       local-eth-network:
 
@@ -86,17 +81,14 @@ services:
     restart: on-failure
     build:
       context: eth_network
-      dockerfile: miner/Dockerfile
+      dockerfile: miner/Dockerfile.pow
     depends_on:
       - bootnode
     volumes:
       - ./eth_network/agent1/:/root/.ethereum/keystore
     command:
       --bootnodes="enode://2dc6792f1285b673f7c64182c7054c6190853ae06e8a9ae0e6daa1c68ebe543142a3ba2168bd0d540f9013967e47fb37dd0eac5c30fe13b3aed9ed66fa199bf2@bootnode:0?discport=30301"
-      --networkid=31575
-      --mine
-      --miner.threads=1
-      --http
+      --networkid=22222
       --http.api="personal,eth,admin,miner"
       --http.vhosts="*"
       --http.corsdomain="*"
@@ -114,17 +106,14 @@ services:
     restart: on-failure
     build:
       context: eth_network
-      dockerfile: miner/Dockerfile
+      dockerfile: miner/Dockerfile.pow
     depends_on:
       - bootnode
     volumes:
       - ./eth_network/agent2/:/root/.ethereum/keystore
     command:
       --bootnodes="enode://2dc6792f1285b673f7c64182c7054c6190853ae06e8a9ae0e6daa1c68ebe543142a3ba2168bd0d540f9013967e47fb37dd0eac5c30fe13b3aed9ed66fa199bf2@bootnode:0?discport=30301"
-      --networkid=31575
-      --http
-      --mine
-      --miner.threads=1
+      --networkid=22222
       --http.api="personal,eth,admin,miner"
       --http.vhosts="*"
       --http.corsdomain="*"
@@ -135,6 +124,8 @@ services:
       --password=/password.txt
     networks:
       local-eth-network:
+
+# Network will also be used by the agents file
 
 networks:
   local-eth-network:

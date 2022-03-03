@@ -1,0 +1,10 @@
+FROM ethereum/client-go:v1.10.1
+
+COPY genesis-pow.json /tmp/genesis.json
+
+RUN geth init /tmp/genesis.json \
+    && touch password.txt \
+    && echo "password" > password.txt \
+    && rm -f ~/.ethereum/geth/nodekey
+
+ENTRYPOINT ["geth", "--mine", "--miner.threads=1", "--http", "--syncmode=full", "--allow-insecure-unlock"]

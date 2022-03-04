@@ -1,5 +1,23 @@
 version: '3.8'
 
+# Services running:
+#      - Cadvisor: google container statistics retriever (stores for 60s)
+#      - Prometheus: Metrics scraper to collect metrics from cadvisor
+#      - Grafana: Allows for the creation of dashboards to help displaying data
+#
+# Purpose: Groups together all required monitoring services
+#
+# The dashboards can be found at:
+#           http://localhost:3000
+#
+# Why: As part of our project we want to show that PoW is much more inefficient in
+#      terms of memory and energy consumption. These dashboards allow us to show
+#      show this in a clean way
+#
+# THIS ENVIRONMENT IS COMPLETELY ISOLATED FROM THE GRID, IT GETS ITS INFO FROM THE
+# HOST MACHINE
+#
+
 services:
   prometheus:
     image: prom/prometheus:latest
@@ -8,6 +26,8 @@ services:
       - ./prometheus/:/etc/prometheus
     ports:
       - "9090:9090"
+    networks:
+      monitoring-net:
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor
@@ -19,18 +39,28 @@ services:
       - /var/lib/docker/:/var/lib/docker:ro
     ports:
       - "8080:8080"
-
+    networks:
+      monitoring-net:
 
   graphana:
     image: grafana/grafana:latest
     container_name: graphana
     restart: on-failure
+    volumes:
+      - ./grafana/:/etc/grafana/provisioning
+      - ./grafana/dashboards/:/var/lib/grafana/dashboards
     ports:
       - "3000:3000"
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=MYPASSWORT
+      # - GF_AUTH_DISABLE_LOGIN_FORM=true #Remove login page
+      # - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin # Anon Admin
+      # - GF_AUTH_ANONYMOUS_ENABLED=true
+      # - GF_AUTH_ORG_ROLE=Editor # Can edit for now
+    networks:
+      monitoring-net:
 
 
 networks:
-  monitoring:
+  monitoring-net:
     driver: bridge

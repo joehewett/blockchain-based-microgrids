@@ -1,0 +1,37 @@
+
+# MODIFIED VERSION OF FILE PROVIDED BY GRAFANAS DOCUMENTATION
+# https://grafana.com/docs/grafana/latest/administration/provisioning/
+
+# config file version
+apiVersion: 1
+
+# list of datasources to insert/update depending
+# whats available in the database
+datasources:
+   # <string, required> name of the datasource. Required
+ - name: Prometheus
+   # <string, required> datasource type. Required
+   type: prometheus
+   # <string, required> access mode. direct or proxy. Required
+   access: proxy
+   # <int> org id. will default to org_id 1 if not specified
+   org_id: 1
+   # <string> url
+   url: http://prometheus:9090
+   uid: AXR0RpL7z
+   # <string> database password, if used
+   password:
+   # <string> database user, if used
+   user:
+   # <string> database name, if used
+   database:
+   # <bool> enable/disable basic auth
+   basic_auth:
+   # <string> basic auth username
+   basic_auth_user:
+   # <string> basic auth password
+   basic_auth_password:
+   # <bool> enable/disable with credentials headers
+   with_credentials:
+   # <bool> mark as default datasource. Max one per org
+   is_default: true

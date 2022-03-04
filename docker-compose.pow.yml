@@ -4,6 +4,7 @@ services:
   bootnode:
     hostname: bootnode
     image: ethereum/client-go:alltools-v1.10.16
+    container_name: pow-bootnode
     restart: on-failure
     volumes:
       - ./eth_network/bootnode/bootnode.key:/tmp/bootnode.key
@@ -17,6 +18,7 @@ services:
     hostname: contract-node
     image: miner-node
     restart: on-failure
+    container_name: pow-contract-node
     build:
       context: eth_network
       dockerfile: miner/Dockerfile.pow
@@ -43,6 +45,7 @@ services:
   contract-producer:
     hostname: contract-producer
     image: contract-producer
+    container_name: pow-contract-producer
     restart: on-failure
     build:
       context: ContractProducer
@@ -79,6 +82,7 @@ services:
     hostname: agent1-node
     image: miner-node
     restart: on-failure
+    container_name: pow-agent-node-1
     build:
       context: eth_network
       dockerfile: miner/Dockerfile.pow
@@ -104,6 +108,7 @@ services:
     hostname: agent2-node
     image: miner-node
     restart: on-failure
+    container_name: pow-agent-node-2
     build:
       context: eth_network
       dockerfile: miner/Dockerfile.pow

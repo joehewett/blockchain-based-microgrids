@@ -5,6 +5,7 @@ services:
     hostname: bootnode
     image: ethereum/client-go:alltools-v1.10.16
     restart: on-failure
+    container_name: poa-bootnode
     volumes:
       - ./eth_network/bootnode/bootnode.key:/tmp/bootnode.key
     command:
@@ -15,6 +16,7 @@ services:
 
   contract-node:
     hostname: contract-node
+    container_name: poa-contract-node
     image: miner-node
     restart: on-failure
     build:

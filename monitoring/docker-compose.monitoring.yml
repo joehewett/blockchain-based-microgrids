@@ -53,10 +53,10 @@ services:
       - "3000:3000"
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=MYPASSWORT
-      # - GF_AUTH_DISABLE_LOGIN_FORM=true #Remove login page
-      # - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin # Anon Admin
-      # - GF_AUTH_ANONYMOUS_ENABLED=true
-      # - GF_AUTH_ORG_ROLE=Editor # Can edit for now
+      - GF_AUTH_DISABLE_LOGIN_FORM=true #Remove login page
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin # Anon Admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ORG_ROLE=Editor # Can edit for now
     networks:
       monitoring-net:
 

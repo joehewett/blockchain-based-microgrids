@@ -4,7 +4,7 @@ services:
   bootnode:
     hostname: bootnode
     image: ethereum/client-go:alltools-v1.10.16
-    container_name: pow-bootnode
+    container_name: ${CONTAINER_PREFIX}-bootnode
     restart: on-failure
     volumes:
       - ./eth_network/bootnode/bootnode.key:/tmp/bootnode.key
@@ -12,16 +12,16 @@ services:
       bootnode
       -nodekey /tmp/bootnode.key
     networks:
-      local-eth-network:
+      grid-network: {}
 
   contract-node:
     hostname: contract-node
-    image: miner-node
+    image: ${ETH_NODE_IMAGE}
     restart: on-failure
-    container_name: pow-contract-node
+    container_name: ${CONTAINER_PREFIX}-contract-node
     build:
       context: eth_network
-      dockerfile: miner/Dockerfile.pow
+      dockerfile: miner/${ETH_NODE_DOCKERFILE}
     depends_on:
       - bootnode
     volumes:
@@ -40,12 +40,12 @@ services:
     depends_on:
       - ethstats
     networks:
-      local-eth-network:
+      grid-network: {}
 
   contract-producer:
     hostname: contract-producer
     image: contract-producer
-    container_name: pow-contract-producer
+    container_name: ${CONTAINER_PREFIX}-contract-producer
     restart: on-failure
     build:
       context: ContractProducer
@@ -60,18 +60,18 @@ services:
       - URL_PORT=8085
       - CHAIN_ID=22222
     networks:
-      local-eth-network:
+      grid-network: {}
 
   ethstats:
     hostname: ethstats
     image: puppeth/ethstats
+    container_name: ${CONTAINER_PREFIX}-eth-stats
     environment:
       - WS_SECRET=password
     ports:
       - "3001:3000"
     networks:
-      local-eth-network:
-
+      grid-network:
 
 
   # Agents will be added in a seperate Dockerfile as
@@ -80,12 +80,12 @@ services:
 
   agent1-node:
     hostname: agent1-node
-    image: miner-node
+    image: ${ETH_NODE_IMAGE}
     restart: on-failure
-    container_name: pow-agent-node-1
+    container_name: ${CONTAINER_PREFIX}-agent-node-1
     build:
       context: eth_network
-      dockerfile: miner/Dockerfile.pow
+      dockerfile: miner/${ETH_NODE_DOCKERFILE}
     depends_on:
       - bootnode
     volumes:
@@ -102,16 +102,16 @@ services:
       --unlock=0x685fbc3ddae415d0a73031b4192f6f46b11f7735
       --password=/password.txt
     networks:
-      local-eth-network:
+      grid-network: {}
 
   agent2-node:
     hostname: agent2-node
-    image: miner-node
+    image: ${ETH_NODE_IMAGE}
     restart: on-failure
-    container_name: pow-agent-node-2
+    container_name: ${CONTAINER_PREFIX}-agent-node-2
     build:
       context: eth_network
-      dockerfile: miner/Dockerfile.pow
+      dockerfile: miner/${ETH_NODE_DOCKERFILE}
     depends_on:
       - bootnode
     volumes:
@@ -128,10 +128,11 @@ services:
       --unlock=0x293839697e7197e1e3ef553f4434edfa499791ee
       --password=/password.txt
     networks:
-      local-eth-network:
+      grid-network: {}
 
 # Network will also be used by the agents file
 
 networks:
-  local-eth-network:
+  grid-network:
     driver: bridge
+    name: ${GRID_NETWORK}

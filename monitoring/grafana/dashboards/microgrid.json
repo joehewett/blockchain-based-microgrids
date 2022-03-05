@@ -24,7 +24,7 @@
   "gnetId": 893,
   "graphTooltip": 1,
   "id": 1,
-  "iteration": 1646395987442,
+  "iteration": 1646479599562,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -43,7 +43,7 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 0,
+            "fillOpacity": 10,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,

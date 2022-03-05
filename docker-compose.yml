@@ -1,34 +1,34 @@
-version: '3'
+version: '3.8'
 
 services:
   bootnode:
     hostname: bootnode
     image: ethereum/client-go:alltools-v1.10.16
     restart: on-failure
-    container_name: poa-bootnode
+    container_name: ${CONTAINER_PREFIX}-bootnode
     volumes:
       - ./eth_network/bootnode/bootnode.key:/tmp/bootnode.key
     command:
       bootnode
       -nodekey /tmp/bootnode.key
     networks:
-      local-eth-network:
+      grid-network: {}
 
   contract-node:
     hostname: contract-node
-    container_name: poa-contract-node
-    image: miner-node
+    container_name: ${CONTAINER_PREFIX}-contract-node
+    image: ${ETH_NODE_IMAGE}
     restart: on-failure
     build:
       context: eth_network
-      dockerfile: miner/Dockerfile
+      dockerfile: miner/${ETH_NODE_DOCKERFILE}
     depends_on:
       - bootnode
     volumes:
       - ./eth_network/contract-producer/:/root/.ethereum/keystore
     command:
       --bootnodes="enode://2dc6792f1285b673f7c64182c7054c6190853ae06e8a9ae0e6daa1c68ebe543142a3ba2168bd0d540f9013967e47fb37dd0eac5c30fe13b3aed9ed66fa199bf2@bootnode:0?discport=30301"
-      --networkid=31575
+      --networkid=${ETH_CHAIN_ID}
       --mine
       --miner.threads=1
       --http
@@ -40,16 +40,15 @@ services:
       --ethstats="contract-node:password@ws://ethstats:3000"
       --unlock=0xdb044d024331aa4a4a019cef625dfca419cf73df
       --password=/password.txt
-    ports:
-      - "8545:8545"
     depends_on:
       - ethstats
     networks:
-      local-eth-network:
+      grid-network: {}
 
   contract-producer:
     hostname: contract-producer
     image: contract-producer
+    container_name: ${CONTAINER_PREFIX}-contract-producer
     restart: on-failure
     build:
       context: ContractProducer
@@ -62,20 +61,20 @@ services:
       - URL_SCHEME=http
       - URL_HOST=contract-node
       - URL_PORT=8085
-      - CHAIN_ID=31575
+      - CHAIN_ID=${ETH_CHAIN_ID}
     networks:
-      local-eth-network:
+      grid-network: {}
 
   ethstats:
     hostname: ethstats
     image: puppeth/ethstats
+    container_name: ${CONTAINER_PREFIX}-eth-stats
     environment:
       - WS_SECRET=password
     ports:
-      - "3001:3000"
+      - "${ETH_STATS_PORT}:3000"
     networks:
-      local-eth-network:
-
+      grid-network: {}
 
 
   # Agents will be added in a seperate Dockerfile as
@@ -84,18 +83,19 @@ services:
 
   agent1-node:
     hostname: agent1-node
-    image: miner-node
+    image: ${ETH_NODE_IMAGE}
     restart: on-failure
+    container_name: ${CONTAINER_PREFIX}-agent-1-node
     build:
       context: eth_network
-      dockerfile: miner/Dockerfile
+      dockerfile: miner/${ETH_NODE_DOCKERFILE}
     depends_on:
       - bootnode
     volumes:
       - ./eth_network/agent1/:/root/.ethereum/keystore
     command:
       --bootnodes="enode://2dc6792f1285b673f7c64182c7054c6190853ae06e8a9ae0e6daa1c68ebe543142a3ba2168bd0d540f9013967e47fb37dd0eac5c30fe13b3aed9ed66fa199bf2@bootnode:0?discport=30301"
-      --networkid=31575
+      --networkid=${ETH_CHAIN_ID}
       --mine
       --miner.threads=1
       --http
@@ -108,22 +108,23 @@ services:
       --unlock=0x685fbc3ddae415d0a73031b4192f6f46b11f7735
       --password=/password.txt
     networks:
-      local-eth-network:
+      grid-network: {}
 
   agent2-node:
     hostname: agent2-node
-    image: miner-node
+    image: ${ETH_NODE_IMAGE}
     restart: on-failure
+    container_name: ${CONTAINER_PREFIX}-agent-2-node
     build:
       context: eth_network
-      dockerfile: miner/Dockerfile
+      dockerfile: miner/${ETH_NODE_DOCKERFILE}
     depends_on:
       - bootnode
     volumes:
       - ./eth_network/agent2/:/root/.ethereum/keystore
     command:
       --bootnodes="enode://2dc6792f1285b673f7c64182c7054c6190853ae06e8a9ae0e6daa1c68ebe543142a3ba2168bd0d540f9013967e47fb37dd0eac5c30fe13b3aed9ed66fa199bf2@bootnode:0?discport=30301"
-      --networkid=31575
+      --networkid=${ETH_CHAIN_ID}
       --http
       --mine
       --miner.threads=1
@@ -136,8 +137,9 @@ services:
       --unlock=0x293839697e7197e1e3ef553f4434edfa499791ee
       --password=/password.txt
     networks:
-      local-eth-network:
+      grid-network: {}
 
 networks:
-  local-eth-network:
+  grid-network:
     driver: bridge
+    name: ${GRID_NETWORK}

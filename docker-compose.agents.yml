@@ -1,14 +1,16 @@
-version: '3.7'
+version: '3.8'
 
 networks:
-  microgrid_local-eth-network:
+  grid_network:
     external: true
+    name: ${GRID_NETWORK}
 
 services:
   agent-one:
     hostname: agent-one
     image: grid-agent
     restart: on-failure
+    container_name: ${CONTAINER_PREFIX}-agent-one
     build:
       context: Agent
       dockerfile: Dockerfile.local
@@ -24,12 +26,13 @@ services:
       - PRODUCTION_RATE=50
       - CONSUMPTION_RATE=100
     networks:
-      microgrid_local-eth-network:
+      grid_network: {}
 
   agent-two:
     hostname: agent-two
     image: grid-agent
     restart: on-failure
+    container_name: ${CONTAINER_PREFIX}-agent-two
     build:
       context: Agent
       dockerfile: Dockerfile.local
@@ -45,4 +48,4 @@ services:
       - PRODUCTION_RATE=100
       - CONSUMPTION_RATE=50
     networks:
-      microgrid_local-eth-network:
+      grid_network: {}

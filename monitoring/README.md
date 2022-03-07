@@ -45,6 +45,8 @@ The aim of this project is two part:
 You should be able to see something like: TODO need to take a screenshot
  
  ### Architecture monitoring
+
+![Untitled Diagram drawio](https://user-images.githubusercontent.com/44194617/157083124-504b0053-e9cb-4e6c-89ba-7e6fde733468.png)
+
  
- TODO need to draw and add a diagram
  

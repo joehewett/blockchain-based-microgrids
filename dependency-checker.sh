@@ -31,7 +31,7 @@ if ! docker version >/dev/null 2>&1; then
   printf "\n%s" "Docker engine is not running. Starting daemon ..."
 
   if [[ $OSTYPE == 'darwin'* ]]; then
-    open -a Docker -g
+    open -a Docker -gj
     COUNTER=0
     while ! docker version >/dev/null 2>&1; do
       printf "."

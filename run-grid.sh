@@ -37,6 +37,5 @@ docker-compose --env-file ./env/.poa-env up -d
 printf "Running Proof of Work grid"
 docker-compose --env-file ./env/.pow-env up -d
 
-
-
-# Make sure all dependencies are installed
+print_success "Started all components"
+open "http://localhost:3000/d/H1L77tL7k/docker-monitoring?orgId=1&refresh=5m"

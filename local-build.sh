@@ -1,33 +1,26 @@
 #!/usr/bin/env bash
 
 WORK_DIR=$(pwd)
-BIN_DIR=$WORK_DIR/bin
 
-
-# TODO: for now we will assume that if the dir exits then the executables are included
-if [ ! -d "$BIN_DIR" ]; then
-  source ./dep-installer.sh
-else
-  echo "Dependencies already exist. Skipping installation"
-fi
-
-# Update path
-PATH=$BIN_DIR:$PATH
+# Checks that java exits
+./jdk-installer.sh
 
 
 # Rather than rely on external repositories we will build all code locally
 # Hopefully, we can do this in docker but for now this is the best way forward
 # The only risk is compatibility issues JDK version, etc
 
+# Not running tests as there arent any unit/component tests in place
+# This project accompanies a research paper therefore does not adhere fully to standard QA procedures (automated test suites)
 
 cd ./ContractLib
-./gradlew clean build publishMavenJavaPublicationToMavenLocal
+./gradlew build publishMavenJavaPublicationToMavenLocal -x test
 cd $WORK_DIR
 
 cd ContractProducer
-./gradlew clean build
+./gradlew build -x test
 cd $WORK_DIR
 
 cd Agent
-./gradlew clean build
+./gradlew build -x test
 cd $WORK_DIR

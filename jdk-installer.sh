@@ -4,6 +4,16 @@ WORK_DIR=$(pwd)
 BIN_DIR=$WORK_DIR/bin
 BUILD_DIR=$WORK_DIR/dep_build
 
+
+# Helper formatting methods
+function print_error() {
+  printf "\e[1;31m\n%s \e[0m\n" "$1"
+}
+
+function print_success() {
+  printf "\e[1;32m\n%s \e[0m\n" "$1"
+}
+
 # Checks that the correct Java version is installed
 
 # Script adapted version of helpful response from
@@ -17,7 +27,7 @@ fi
 if [[ "$_java" ]]; then
     version=$("$_java" -version 2>&1 | awk -F '"' '/version/ {print $2}')
     if [[ "$version" > "1.8" ]]; then
-        echo "Found appropriate java version $version"
+        print_success "Found appropriate java version $version"
         exit 0
     fi
 fi

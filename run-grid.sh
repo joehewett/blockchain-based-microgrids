@@ -1,22 +1,41 @@
 #!/usr/bin/env bash
 
+# Helper methods for formatting
+function print_error() {
+  printf "\e[1;31m\n%s \e[0m\n" "$1"
+}
+
+function print_success() {
+  printf "\e[1;32m\n%s \e[0m\n" "$1"
+}
+
 # TODO set env variables
 
-printf "Checking that dependencies are installed ... "
+printf "Checking that all dependencies are installed ... "
 chmod +x ./dependency-checker.sh
-source ./dependency-checker.sh # TODO check for failure
+
+# Exceptions will be propagated!
+source ./dependency-checker.sh
 
 # ADD IF ELSE MSG
 
 
 # Building software
-#printf "Building and publishing software to MavenLocal"
-#source ./local-build.sh
+printf "Building and publishing software to MavenLocal"
+source ./local-build.sh
 
 
 # TODO should I remove all images
-#printf "Running docker monitoring services "
-#docker-compose -f -d monitoring/docker-compose.monitoring.yml up
+printf "Running docker monitoring services "
+docker-compose -f monitoring/docker-compose.monitoring.yml up -d
+
+print_success "Monitoring started. Opening UI "
+
+printf "Running Proof of Authority grid"
+docker-compose --env-file ./env/.poa-env up -d
+
+printf "Running Proof of Work grid"
+docker-compose --env-file ./env/.pow-env up -d
 
 
 

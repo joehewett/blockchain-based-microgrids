@@ -44,10 +44,9 @@ if ! docker version >/dev/null 2>&1; then
     done
   # TODO what if it is run on Linux
   fi
-
 fi
 
-print_success "Found all required dependencies!"
-
 # Finally we check that Java is installed and the correct version
-#source ./jdk-installer.sh  # TODO check what happens if this fails
+source ./jdk-installer.sh  # TODO check what happens if this fails
+
+print_success "Found all required dependencies!"

@@ -17,9 +17,8 @@ The aim of this project is two part:
  * [Prometheus](https://github.com/prometheus/prometheus): Metrics management project which collects and stores metrics via peridic straping of configurable http endpoints
  * [Grafana](https://github.com/grafana/grafana): Visualisation tool for metrics and log management
  
-
  
-  ## Running the monitoring tool
+ ## Docker container monitoring
    ### Requirements
  * Docker: All components are run and linked together via docker and docker compose, respectively
  * Ports: The UI for grafana will be exposed on ___port 3000___
@@ -49,4 +48,11 @@ You should be able to see something like: TODO need to take a screenshot
 ![Untitled Diagram drawio](https://user-images.githubusercontent.com/44194617/157083124-504b0053-e9cb-4e6c-89ba-7e6fde733468.png)
 
  
- 
+  ## Ethereum activity monitoring
+  All metrics and statistics for each node in the network are collected and exposed at ``http://localhost:<exposed_port>``. The interace is provided by [``eth-netstat``](https://github.com/cubedro/eth-netstats) who offer a simple UI to expose node metrics. The project is licensed under GNU General Public License v3.0. 
+
+> The aim of this dashboard is to easily export statistics which will later on help in the comparison of different _consensus algorithms_ (PoA vs PoW)
+
+If successfully set up, the metrics should look like:
+
+<img width="1436" alt="Screenshot 2022-03-01 at 19 37 59" src="https://user-images.githubusercontent.com/44194617/156236719-d166d2f8-28a7-4394-a1ac-e19304b40ab6.png">

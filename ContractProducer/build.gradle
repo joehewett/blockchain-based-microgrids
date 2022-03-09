@@ -66,8 +66,13 @@ compileKotlin {
     kotlinOptions.jvmTarget = "11"
 }
 
+// Disables cache for SNAPSHOT dependencies
 configurations.all {
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+task printJavaHome() {
+    println System.getProperty("java.home")
 }
 
 

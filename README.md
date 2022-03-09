@@ -2,7 +2,7 @@
 
 This projects aims to demonstrate the following:
 
-* Blockchain/Ethereum smart contracts ... 
+* Demonstrate that blockchain and smart contracts aid in the creation of microgrids
 * The choice of _concensus algorithm_ chosen can have a large impact on both efficiency and energy consumption
 
 This repository holds all the projects required to run a local decetralised microgrid and services to monitor its activity. Namely:

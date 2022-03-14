@@ -60,9 +60,10 @@ They can be accessed at:
 ### Architecture
 
 #### Grid architecture 
-TODO add image
+![architecture-Page-2 drawio](https://user-images.githubusercontent.com/44194617/157416364-52dc22eb-bd69-462b-bd83-9dba978ed2c7.png)
+
 #### Monitoring architecture
-TODO add image 
+![Untitled Diagram drawio](https://user-images.githubusercontent.com/44194617/157416391-865f4896-5667-46f6-ba62-fe926bf9e59b.png)
 
 
 ### Documentation

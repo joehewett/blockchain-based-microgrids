@@ -30,7 +30,7 @@ services:
       monitoring-net:
 
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor
+    image: gcr.io/cadvisor/cadvisor:latest
     container_name: cadvisor
     hostname: cadvisor
     volumes:

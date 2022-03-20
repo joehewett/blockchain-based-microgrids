@@ -9,7 +9,6 @@ function print_success() {
   printf "\e[1;32m\n%s \e[0m\n" "$1"
 }
 
-# TODO set env variables
 
 printf "Checking that all dependencies are installed ... "
 chmod +x ./dependency-checker.sh
@@ -32,10 +31,10 @@ docker-compose -f monitoring/docker-compose.monitoring.yml up -d
 print_success "Monitoring started. Opening UI "
 
 printf "Running Proof of Authority grid"
-docker-compose --env-file ./env/.poa-env up -d
+docker-compose --env-file ./env/.poa-env up -d --remove-orphans --build
 
 printf "Running Proof of Work grid"
-docker-compose --env-file ./env/.pow-env up -d
+docker-compose --env-file ./env/.pow-env up -d --remove-orphans  --build
 
 print_success "Started all components"
 open "http://localhost:3000/d/H1L77tL7k/docker-monitoring?orgId=1&refresh=5m"

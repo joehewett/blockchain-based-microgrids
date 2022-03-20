@@ -24,6 +24,7 @@ services:
       dockerfile: miner/${ETH_NODE_DOCKERFILE}
     depends_on:
       - bootnode
+      - ethstats
     volumes:
       - ./eth_network/contract-producer/:/root/.ethereum/keystore
     command:
@@ -40,8 +41,6 @@ services:
       --ethstats="contract-node:password@ws://ethstats:3000"
       --unlock=0xdb044d024331aa4a4a019cef625dfca419cf73df
       --password=/password.txt
-    depends_on:
-      - ethstats
     networks:
       grid-network: {}
 
@@ -77,7 +76,7 @@ services:
       grid-network: {}
 
 
-  # Agents will be added in a seperate Dockerfile as
+  # Agents will be added in a separate Dockerfile as
   # this file is simply the pre-existing infrastructure that is expected to
   # exist prior to anyone joining the network
 
@@ -85,7 +84,7 @@ services:
     hostname: agent1-node
     image: ${ETH_NODE_IMAGE}
     restart: on-failure
-    container_name: ${CONTAINER_PREFIX}-agent-1-node
+    container_name: ${CONTAINER_PREFIX}-node-agent-1
     build:
       context: eth_network
       dockerfile: miner/${ETH_NODE_DOCKERFILE}
@@ -114,7 +113,7 @@ services:
     hostname: agent2-node
     image: ${ETH_NODE_IMAGE}
     restart: on-failure
-    container_name: ${CONTAINER_PREFIX}-agent-2-node
+    container_name: ${CONTAINER_PREFIX}-node-agent-2
     build:
       context: eth_network
       dockerfile: miner/${ETH_NODE_DOCKERFILE}
@@ -138,6 +137,50 @@ services:
       --password=/password.txt
     networks:
       grid-network: {}
+
+  agent-one:
+    hostname: agent-one
+    image: grid-agent
+    restart: on-failure
+    container_name: ${CONTAINER_PREFIX}-agent-one
+    build:
+      context: Agent
+      dockerfile: Dockerfile.local
+    volumes:
+      - ./eth_network/agent1/:/root/.ethereum/keystore
+    environment:
+      - NET_CHAIN_ID=31575
+      - NET_SCHEME=http
+      - NET_HOST=agent1-node
+      - NET_PORT=8085
+      - WEB3J_WALLET_PATH=/root/.ethereum/keystore
+      - WEB3J_WALLET_PASSWORD=password
+      - PRODUCTION_RATE=50
+      - CONSUMPTION_RATE=100
+    networks:
+      grid-network: { }
+
+  agent-two:
+    hostname: agent-two
+    image: grid-agent
+    restart: on-failure
+    container_name: ${CONTAINER_PREFIX}-agent-two
+    build:
+      context: Agent
+      dockerfile: Dockerfile.local
+    volumes:
+      - ./eth_network/agent2/:/root/.ethereum/keystore
+    environment:
+      - NET_CHAIN_ID=31575
+      - NET_SCHEME=http
+      - NET_HOST=agent2-node
+      - NET_PORT=8085
+      - WEB3J_WALLET_PATH=/root/.ethereum/keystore
+      - WEB3J_WALLET_PASSWORD=password
+      - PRODUCTION_RATE=100
+      - CONSUMPTION_RATE=50
+    networks:
+      grid-network: { }
 
 networks:
   grid-network:

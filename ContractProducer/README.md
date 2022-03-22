@@ -29,6 +29,12 @@ CHAIN_ID | 1 | Ethereum Network chain ID (1 is the public network)
 
 
 ### Building
+***The ``run-grid.sh`` script will take care of all this*** 
+
+This is just a guide to building and running this project as a standalone should the need arise
+
+***
+
 This project is managed by ``gradle v6.7`` . Therefore, to build the project you can run:
 ```bash 
 ./gradlew build 

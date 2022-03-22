@@ -8,12 +8,12 @@ The aim of this project is two part:
  Therefore, a monitoring system has been put in place in order to plot the progress of each component in our system. 
  
  
- > The monitoring system is technically not part of the microgrid if not it provides a global overview of the docker environemnt running the microgrid. It connects 
+ > The monitoring system is technically not part of the microgrid, however it does provides a global overview of the docker environemnt running the microgrid. It connects 
  > to the host machine rather than the running docker environments
  
  This is achieved by using the following technologies: 
  
- * [Cadvisor](https://github.com/google/cadvisor): a Google project which collects statisticts from containers on a machine
+ * [cAdvisor](https://github.com/google/cadvisor): a Google project which collects statisticts from containers on a machine
  * [Prometheus](https://github.com/prometheus/prometheus): Metrics management project which collects and stores metrics via peridic straping of configurable http endpoints
  * [Grafana](https://github.com/grafana/grafana): Visualisation tool for metrics and log management
  

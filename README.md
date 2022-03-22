@@ -1,4 +1,4 @@
-## Decentralised Energy Microgrid
+## Blockchain-Based Energy Microgrid
 
 This projects aims to demonstrate the following:
 

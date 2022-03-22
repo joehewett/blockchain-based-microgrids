@@ -155,7 +155,7 @@ services:
       - NET_PORT=8085
       - WEB3J_WALLET_PATH=/root/.ethereum/keystore
       - WEB3J_WALLET_PASSWORD=password
-      - PRODUCTION_RATE=50
+      - PRODUCTION_RATE=10
       - CONSUMPTION_RATE=100
     networks:
       grid-network: { }

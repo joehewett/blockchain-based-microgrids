@@ -24,7 +24,6 @@ printf "Building and publishing software to MavenLocal"
 source ./local-build.sh
 
 
-# TODO should I remove all images
 printf "Running docker monitoring services "
 docker-compose -f monitoring/docker-compose.monitoring.yml up -d
 

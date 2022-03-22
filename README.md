@@ -18,7 +18,7 @@ Currently, the microgrid is simmulated by running all components contanierised a
 > This system can easily be run on _Mac_ and _Linux_ (not tested on Windows). However all the below guidance and scripts are aimed at **Mac users** (although probably Linux compatible with some small modifications (flags and such))
 
 #### Required dependencies
-The only dependency you will need is ``docker`` and ``docker compose``:
+You will need the following dependencies:
 * __Mac__: Install [Docker Desktop](https://docs.docker.com/desktop/mac/install/)
 * __Linux__: Install [Docker Engine](https://docs.docker.com/engine/install/) and [Docker Compose](https://docs.docker.com/compose/install/)
 * JDK( Java 8+) (taken care of by dependency installer script)

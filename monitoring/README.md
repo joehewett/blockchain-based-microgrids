@@ -41,7 +41,10 @@ The aim of this project is two part:
  open http://localhost:3000
  ```
  
-You should be able to see something like: TODO need to take a screenshot
+You should be able to see something like: 
+
+<img width="1440" alt="run3" src="https://user-images.githubusercontent.com/44194617/159512472-b24864aa-be10-4450-abf0-384b07b625db.png">
+
  
  ### Architecture monitoring
 

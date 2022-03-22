@@ -25,7 +25,7 @@ includes all certain tasks necessary to automate the file generation.
 
 
 
-#### External bugs and workarounds
+### External bugs and workarounds
 One known bug is the invalid generation of any functions in the solidity file 
 marked as ``payable``
 

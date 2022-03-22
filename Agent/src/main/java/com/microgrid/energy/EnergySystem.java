@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-// TODO: this could be an interface
+// TODO: this could have a cleaner interface
 @Slf4j
 @Singleton
 public class EnergySystem {
@@ -24,7 +24,7 @@ public class EnergySystem {
     private final ScheduledExecutorService executorService =
             Executors.newSingleThreadScheduledExecutor();
 
-    // Should it be atomic
+    // Should it be atomic?
     private boolean active;
 
     public boolean powerUpAppliances() {

@@ -14,7 +14,7 @@ public class AgentTest {
     @Inject
     EmbeddedApplication<?> application;
 
-    //    @Test
+    // No unit tests for the time being
     void testItWorks() {
         Assertions.assertTrue(application.isRunning());
     }

@@ -66,14 +66,8 @@ public class Agent {
         // Subscribes to completed sale events
         subscribeToCompletedSales(contract);
 
-        // Spans thread to periodically sell energy if needed
-         startPeriodicEnergySale(contract, 4);
-
-//        if (config.getConsumptionRate() < config.getProductionRate()) {
-//            log.info("Selling energy");
-//            contract.sellEnergy(BigInteger.valueOf(500)).send();
-//            log.info("Sold energy");
-//        }
+        // Spawns thread to periodically sell energy if needed
+         startPeriodicEnergySale(contract, 15);
     }
 
     public void subscribeToCompletedSales(final EnergyContract contract) {

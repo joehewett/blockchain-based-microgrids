@@ -28,7 +28,7 @@ public class EnergyOfferListener implements io.reactivex.functions.Consumer<Ener
                 contract.buyEnergy(BigInteger.valueOf(result), BigInteger.valueOf(result)).send();
                 log.info("Bought energy");
             } else {
-                log.info("Ignoring nothing to buy");
+                log.debug("Ignoring nothing to buy");
             }
         }
         // Check if I need to sell

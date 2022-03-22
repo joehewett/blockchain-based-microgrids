@@ -17,9 +17,24 @@ For now this is set up in the ``docker-compose.yml`` located in the ``/env`` dir
 
 
 ### Environment
-TODO add table with configuration environment variables
+
+Environment Variable | Default | Description 
+--- | --- | --- 
+URL_SCHEME | http | http or https url scheme for protocol to connect to Ethereum Node 
+URL_HOST | localhost | Host address of Ethereum Node
+URL_PORT | 8085 | Port exposed by Ethereum Node
+WALLET_PATH | /root/ | Path to crypto wallet
+WALLET_PASSWORD | password | Password to crypto wallet
+CHAIN_ID | 1 | Ethereum Network chain ID (1 is the public network)
+
 
 ### Building
+***The ``run-grid.sh`` script will take care of all this*** 
+
+This is just a guide to building and running this project as a standalone should the need arise
+
+***
+
 This project is managed by ``gradle v6.7`` . Therefore, to build the project you can run:
 ```bash 
 ./gradlew build 
@@ -31,4 +46,10 @@ If you would just like to generate the Wrapper classes for the Solarity contract
 
 
 ### Containerising
-TODO
+In order to containerise the producer run the following:
+
+```bash 
+docker build -f Dockerfile.local -t contract-producer .
+```
+
+> ***This requires the Contract library to be published first***

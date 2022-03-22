@@ -1,4 +1,4 @@
-## Decentralised Energy Microgrid
+## Blockchain-Based Energy Microgrid
 
 This projects aims to demonstrate the following:
 
@@ -18,26 +18,26 @@ Currently, the microgrid is simmulated by running all components contanierised a
 > This system can easily be run on _Mac_ and _Linux_ (not tested on Windows). However all the below guidance and scripts are aimed at **Mac users** (although probably Linux compatible with some small modifications (flags and such))
 
 #### Required dependencies
-The only dependency you will need is ``docker`` and ``docker compose``:
-* __Mac__: Install [Docker Desktop](https://docs.docker.com/desktop/mac/install/)
-* __Linux__: Install [Docker Engine](https://docs.docker.com/engine/install/) and [Docker Compose](https://docs.docker.com/compose/install/)
-* JDK( Java 8+) (taken care of by dependency installer script)
+You will need the following dependencies:
+* Docker/Docker compose:
+  * __Mac__: Install [Docker Desktop](https://docs.docker.com/desktop/mac/install/)
+  * __Linux__: Install [Docker Engine](https://docs.docker.com/engine/install/) and [Docker Compose](https://docs.docker.com/compose/install/)
+* JDK (Java 8+)
 
 > The ``dependency-checker.sh`` will check that _docker_, _docker-compose_ and an appropriate JDK is present on your machine.
 > This script will run automatically when using the main script
 
-***Docker machine requirements:*** this system has been tested with the following parameters: 7GB of RAM allocated to Docker and 50GB space allocation (probably overkill). To allow for a similar simulation please set these parameters in Docker Desktop (Mac) ``Preferences -> Resources -> Advanced->Apply``
+***Docker machine requirements:*** this system has been tested with the following parameters: 7GB of RAM allocated to Docker and 50GB space allocation (probably overkill). To allow for a similar simulation please set these parameters in Docker Desktop (Mac) ``Preferences -> Resources -> Advanced -> Apply``
 
 ## Running microgrid and monitoring services
 From the project root dir run the following:
 
 ```bash
-chmod +x ./run-grid.sh
-./run-grid
+chmod +x ./run-grid.sh && ./run-grid
 ```
 ***What is the script doing:***
 
-* Runs ``dependency-checker.sh`` and ``jdk-installer.sh`` which checks that all the dependencies for the project are present and that docker is running. If the required JDK is not present then it will install is to ``$PROJ/bin``
+* Runs ``dependency-checker.sh`` and ``jdk-installer.sh`` which checks that all the dependencies for the project are present and that docker is running. If the required JDK is not present then it will install is to ``$PROJ/bin`` (***MacOS only***)
 * Runs ``local-build.sh`` which builds and publishes artifacts (required for docker images)
 * Starts monitoring services. Definitions can be found at [monitoring docker](https://github.com/joehewett/cs347-coursework/blob/master/monitoring/docker-compose.monitoring.yml)
 * Starts a grid running _Proof of Authority_ (builds and runs images and network)
@@ -45,7 +45,7 @@ chmod +x ./run-grid.sh
 * Will finally open the URL for the dashboard
 
 ### Monitoring progress
-A number of dashboards to monitor both the _Docker Engine_ and _Ethereum Nodes_ has been added. 
+A number of dashboards to monitor both the _Docker Engine_ and _Ethereum Nodes_ have been added. 
 
 They can be accessed at:
 

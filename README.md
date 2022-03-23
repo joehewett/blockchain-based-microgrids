@@ -33,8 +33,12 @@ You will need the following dependencies:
 From the project root dir run the following:
 
 ```bash
-chmod +x ./run-grid.sh && ./run-grid
+./run-grid.sh
 ```
+
+> If not executable you may need to run ``chmod +x ./run-grid.sh &&``
+
+
 ***What is the script doing:***
 
 * Runs ``dependency-checker.sh`` and ``jdk-installer.sh`` which checks that all the dependencies for the project are present and that docker is running. If the required JDK is not present then it will install is to ``$PROJ/bin`` (***MacOS only***)

@@ -59,3 +59,7 @@ You should be able to see something like:
 If successfully set up, the metrics should look like:
 
 <img width="1436" alt="Screenshot 2022-03-01 at 19 37 59" src="https://user-images.githubusercontent.com/44194617/156236719-d166d2f8-28a7-4394-a1ac-e19304b40ab6.png">
+
+
+#### References
+The dashboards used in grafana are adapted versions of the following template: https://grafana.com/grafana/dashboards/893

@@ -30,7 +30,7 @@ You will need the following dependencies:
 ***Docker machine requirements:*** this system has been tested with the following parameters: 7GB of RAM allocated to Docker and 50GB space allocation (probably overkill). To allow for a similar simulation please set these parameters in Docker Desktop (Mac) ``Preferences -> Resources -> Advanced -> Apply``
 
 ## Running microgrid and monitoring services
-From the project root dir run the following:
+From the project root directory run the following:
 
 ```bash
 ./run-grid.sh

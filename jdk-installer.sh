@@ -30,7 +30,7 @@ if [[ "$_java" ]]; then
   else
     # Install as it either has not been found or is the wrong version
     print_error "Could not find Java. Will install to $BIN_DIR"
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
+    # if [[ $REPLY =~ ^[Yy]$ ]]; then
       printf "\n%s" "Installing ... "
       rm -rf "$BUILD_DIR"
       mkdir "$BUILD_DIR"
@@ -47,7 +47,7 @@ if [[ "$_java" ]]; then
           printf "Do nothing for now"
         fi
       fi
-    fi
+    #fi
   fi
 fi
 

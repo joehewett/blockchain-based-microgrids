@@ -36,7 +36,7 @@ From the project root dir run the following:
 ./run-grid.sh
 ```
 
-> If not executable you may need to run ``chmod +x ./run-grid.sh &&``
+> If not executable you may need to run ``chmod +x ./run-grid.sh``
 
 
 ***What is the script doing:***

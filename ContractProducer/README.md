@@ -1,20 +1,17 @@
 ## Contract Producer
 
-Simple ``Web3J`` java program, which publishes the energy contract and then finalises. 
+Simple ``Web3j`` Java program, which publishes the energy contract and then terminates. 
 
 
-### Required Dedendencies
+### Required Dependencies
 
 #### Environment
-This application can only interact with the Ethereum network through ``JSON-RPC`` exposed by a node on the network. Therefore, it will require a node to connect to (settings described below). A existing wallet is expected as the contract must be published by an account holder.
-For now this is set up in the ``docker-compose.yml`` located in the ``/env`` directory. 
+This application can only interact with the Ethereum network through ``JSON-RPC`` exposed by a node on the network. Therefore, it will require a node to connect to (settings described below). An existing wallet is expected as the contract must be published by an account holder. This is set up in the ``docker-compose.yml`` located in the ``/env`` directory. 
 
 #### Software
-* Java JVM at least version ``1.8``
+* Java JVM; at least version ``1.8``
 * Gradle wrapper provided as part of the project 
 * Docker: for building the image (currently no public image repository to publish so will have to be build locally)
-
-
 
 ### Environment
 
@@ -29,24 +26,23 @@ CHAIN_ID | 1 | Ethereum Network chain ID (1 is the public network)
 
 
 ### Building
-***The ``run-grid.sh`` script will take care of all this*** 
+***The ``run-grid.sh`` script handles this*** 
 
-This is just a guide to building and running this project as a standalone should the need arise
+This is just a guide to building and running this project as a standalone, should the need arise.
 
 ***
 
-This project is managed by ``gradle v6.7`` . Therefore, to build the project you can run:
+This project is managed by ``gradle v6.7``. To build the project, run:
 ```bash 
 ./gradlew build 
 ```
-If you would just like to generate the Wrapper classes for the Solarity contract then you can run:
+To solely generate the wrapper classes for the Solarity contract then you can run:
 ```bash 
 ./gradlew generateContractWrappers
 ```
 
-
 ### Containerising
-In order to containerise the producer run the following:
+To containerise the producer, run:
 
 ```bash 
 docker build -f Dockerfile.local -t contract-producer .

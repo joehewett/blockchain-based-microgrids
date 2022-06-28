@@ -1,60 +1,56 @@
-
 # Monitoring
 
-The aim of this project is two part:
- * Demonstrate that blockchain and smart contracts aid in the creation of microgrids
- * Show that the choice of concensus algorithms has a performance impact
+Project aims:
+* Demonstrate that blockchain and smart contracts aid in the creation of microgrids
+* Show that the choice of consensus algorithm impacts performance
  
- Therefore, a monitoring system has been put in place in order to plot the progress of each component in our system. 
+A monitoring system plots the progress of each component in the system. 
+
+> The monitoring system provides a global overview of the docker environment running the microgrid. It connects to the host machine rather than the running docker environments.
  
+Technologies used: 
  
- > The monitoring system is technically not part of the microgrid, however it does provides a global overview of the docker environemnt running the microgrid. It connects 
- > to the host machine rather than the running docker environments
- 
- This is achieved by using the following technologies: 
- 
- * [cAdvisor](https://github.com/google/cadvisor): a Google project which collects statisticts from containers on a machine
- * [Prometheus](https://github.com/prometheus/prometheus): Metrics management project which collects and stores metrics via peridic straping of configurable http endpoints
- * [Grafana](https://github.com/grafana/grafana): Visualisation tool for metrics and log management
- 
- 
- ## Docker container monitoring
-   ### Requirements
- * Docker: All components are run and linked together via docker and docker compose, respectively
- * Ports: The UI for grafana will be exposed on ___port 3000___
- 
- > If this port is occupied for some reason you can change this by editing the following TODO add once file is finalised
+* [cAdvisor](https://github.com/google/cadvisor): a Google project which collects statisticts from containers on a machine
+* [Prometheus](https://github.com/prometheus/prometheus): Metrics management project which collects and stores metrics via periodic straping of configurable http endpoints
+* [Grafana](https://github.com/grafana/grafana): Visualisation tool for metrics and log management
+
+## Docker container monitoring
+### Requirements
+* Docker: All components are run and linked together via docker and docker compose, respectively
+* Ports: The UI for Grafana is exposed on ___port 3000___
+
+> If this port is occupied for some reason you can change this by editing the following **TODO: add once file is finalised**
  
 ### Starting services
- All the components are containerised and can be run in an isolated environment. Run by executing:
- > From the projects root directory
+All the components are containerised and can be run in an isolated environment. Run by executing:
+> From the project's root directory
+
+```bash
+docker-compose -f monitoring/docker-compose.monitoring.yml up
+
+```
+
+### Visualising results
+Once all the services are running, monitor them by navigating to ``http://localhost:3000``:
+
+```bash
+open http://localhost:3000
+```
  
- ```bash
- docker-compose -f monitoring/docker-compose.monitoring.yml up
- 
- ```
- 
- ### Visualising results
- Once all the services are running you should be able to monitor them by navigating to ``http://localhost:3000``:
- 
- ```bash
- open http://localhost:3000
- ```
- 
-You should be able to see something like: 
+You should see something like: 
 
 <img width="1440" alt="run3" src="https://user-images.githubusercontent.com/44194617/159512472-b24864aa-be10-4450-abf0-384b07b625db.png">
 
- 
- ### Architecture monitoring
+
+### Architecture monitoring
 
 ![Untitled Diagram drawio](https://user-images.githubusercontent.com/44194617/157083124-504b0053-e9cb-4e6c-89ba-7e6fde733468.png)
 
- 
-  ## Ethereum activity monitoring
-  All metrics and statistics for each node in the network are collected and exposed at ``http://localhost:<exposed_port>``. The interace is provided by [``eth-netstat``](https://github.com/cubedro/eth-netstats) who offer a simple UI to expose node metrics. The project is licensed under GNU General Public License v3.0. 
 
-> The aim of this dashboard is to easily export statistics which will later on help in the comparison of different _consensus algorithms_ (PoA vs PoW)
+## Ethereum activity monitoring
+All metrics and statistics for each node in the network are collected and exposed at ``http://localhost:<exposed_port>``. The interface is provided by [``eth-netstat``](https://github.com/cubedro/eth-netstats) who offer a simple UI to expose node metrics. The project is licensed under GNU General Public License v3.0. 
+
+> The aim of this dashboard is to easily export statistics to help in the comparison of different _consensus algorithms_ (PoA vs PoW)
 
 If successfully set up, the metrics should look like:
 
@@ -62,4 +58,4 @@ If successfully set up, the metrics should look like:
 
 
 #### References
-The dashboards used in grafana are adapted versions of the following template: https://grafana.com/grafana/dashboards/893
+The dashboards used in Grafana are adapted versions of the following template: https://grafana.com/grafana/dashboards/893.

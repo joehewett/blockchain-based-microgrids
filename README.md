@@ -8,7 +8,7 @@ This project demonstrates the following:
 This repository holds all projects required to run a local decentralised microgrid and services to monitor its activity:
 * **Agent**: Smart agent which is connected to a (mock) smart meter and communicates with Ethereum nodes to buy/sell via a smart contract
 * **Contract Producer**: Core component of the network infrastructure which publishes the initial smart contract and terminates
-* **Smart Contract lib**: Library which includes the smart contract in both Solidity and a Java wrapper (semi-auto generated)
+* **Smart Contract Lib**: Library which includes the smart contract in both Solidity and a Java wrapper (semi-auto generated)
 * **Monitoring services for docker**: Combines cAdvisor, Prometheus and Grafana to showcase results
 * **Environment**: All configurations to spin up a private Ethereum network
 
